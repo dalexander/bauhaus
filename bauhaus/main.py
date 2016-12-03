@@ -5,6 +5,15 @@ from bauhaus.pflow import PFlow
 from bauhaus.workflows import availableWorkflows
 from bauhaus.utils import mkdirp
 
+def doWorkflowHelp(args):
+    if not args.workflow :
+        print "Please pick a workflow with the --workflow option:"
+        print ' '.join(availableWorkflows.keys())
+        return
+
+    wfg = availableWorkflows[args.workflow]()
+    wfg.help()
+
 def doValidate(args):
     if args.mockResolver:
         r = MockResolver()
@@ -18,6 +27,8 @@ def doValidate(args):
 def doGenerate(args):
     wfg, ct = doValidate(args)
     pflow = PFlow()
+    if args.noGrid:
+        pflow.noGrid()
     wfg.generate(pflow, ct)
     pflow.write("build.ninja")
     print 'Runnable workflow written to directory "%s"' % args.outputDirectory
@@ -30,7 +41,7 @@ def parseArgs():
     parser.add_argument(
         "--conditionTable", "-t",
         action="store", metavar="CONDITION_TABLE.CSV",
-        required=True,
+        #required=True,
         type=op.abspath)
     parser.add_argument(
         "--workflow", "-w",
@@ -48,11 +59,15 @@ def parseArgs():
         "--outputDirectory", "-o",
         default="out",
         action="store", type=str)
+    parser.add_argument(
+        "--noGrid", action="store_true",
+        help="Disable the qsub submission to the grid")
 
     subparsers = parser.add_subparsers(help="sub-command help", dest="command")
-    validate = subparsers.add_parser("validate", help="Validate the condition table")
-    generate = subparsers.add_parser("generate", help="Generate the ninja script to run the workflow")
-    run = subparsers.add_parser("run", help="Run the workflow")
+    subparsers.add_parser("help", help="Help for the given work flow")
+    subparsers.add_parser("validate", help="Validate the condition table")
+    subparsers.add_parser("generate", help="Generate the ninja script to run the workflow")
+    subparsers.add_parser("run", help="Run the workflow")
 
     args = parser.parse_args()
     return args
@@ -60,6 +75,10 @@ def parseArgs():
 
 def _main(args):
     #print args
+
+    if args.command == "help":
+        doWorkflowHelp(args)
+        return
 
     if args.command == "validate":
         doValidate(args)

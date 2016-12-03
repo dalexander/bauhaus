@@ -49,3 +49,15 @@ class MockResolver(object):
     def resolveAlignmentSet(self, smrtLinkServer, jobId):
         jobDir = self.resolveJob(smrtLinkServer, jobId)
         return op.join(jobDir, "tasks/pbalign.tasks.consolidate_bam-0/final.alignmentset.alignmentset.xml")
+
+    def ensureSubreadSet(self, subreadSet):
+        if not subreadSet.endswith(".subreadset.xml"):
+            raise InvalidDataset, "%s not a subreadset"
+        else:
+            return subreadSet
+
+    def ensureAlignmentSet(self, alignmentSet):
+        if not alignmentSet.endswith(".alignmentset.xml"):
+            raise InvalidDataset, "%s not an alignmentset"
+        else:
+            return alignmentSet

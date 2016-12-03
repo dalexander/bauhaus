@@ -21,7 +21,7 @@ def formatModelParams(buildVariables, modelPath, modelSpec):
 def genCCS(pflow, subreadSets, modelPath, modelSpec):
     ccsRule = pflow.genRuleOnce(
         "ccs",
-        "$gridSMP $ncpus ccs --force --numThreads=$ncpus --reportFile=$ccsDiagnostics $modelPath $modelSpec $in $outBam && " +
+        "$gridSMP ccs --force --numThreads=$ncpus --reportFile=$ccsDiagnostics $modelPath $modelSpec $in $outBam && " +
         "dataset create --type ConsensusReadSet $out $outBam")
     ccsSets = []
     for subreadSet in subreadSets:
@@ -40,7 +40,7 @@ def genCCS(pflow, subreadSets, modelPath, modelSpec):
 def genChunkedCCS(pflow, subreadSets, modelPath, modelSpec, splitFactor=8, doMerge=True):
     ccsRule = pflow.genRuleOnce(
         "ccs",
-        "$gridSMP $ncpus ccs --force --numThreads=$ncpus --reportFile=$ccsDiagnostics $modelPath $modelSpec $in $outBam && " +
+        "$gridSMP ccs --force --numThreads=$ncpus --reportFile=$ccsDiagnostics $modelPath $modelSpec $in $outBam && " +
         "dataset create --type ConsensusReadSet $out $outBam")
     ccsSets = []
     for subreadSet in subreadSets:

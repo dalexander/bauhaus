@@ -10,7 +10,7 @@ module load gcc/4.8.4 python/2.7.9 zlib/1.2.5 openblas/0.2.14
 set -euo pipefail
 set -x
 
-BAUHAUS_VE=/mnt/secondary/Share/MLG/Bauhaus/VE-Bauhaus
+BAUHAUS_VE=${BAUHAUS_VE:-/mnt/secondary/Share/MLG/Bauhaus/VE-Bauhaus}
 rm -rf $BAUHAUS_VE
 
 set +u

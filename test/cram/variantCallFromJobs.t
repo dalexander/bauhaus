@@ -21,19 +21,18 @@ Do variant calling from pre-existing mapping jobs.
   $ cat vc/build.ninja
   # Variables
   ncpus = 8
-  grid = qsub -sync y -cwd -V -b y -e log -o log
-  gridSMP = $grid -pe smp
   scratchDir = /scratch
+  grid = qsub -sync y -cwd -V -b y -e log -o log
+  gridSMP = $grid -pe smp $ncpus
   
   # Rules
   rule mergeDatasetsForCondition
     command = $grid dataset merge $out $in
   
   rule variantCalling
-    command = $gridSMP $ncpus variantCaller $modelPath $modelSpec $
-        --algorithm=arrow $coverageLimitArgument -x0 -q0 -j $ncpus $
-        --reportEffectiveCoverage $in -r $reference -o $out -o $
-        $consensusFasta -o $consensusFastq
+    command = $gridSMP variantCaller $modelPath $modelSpec --algorithm=arrow $
+        $coverageLimitArgument -x0 -q0 -j $ncpus --reportEffectiveCoverage $
+        $in -r $reference -o $out -o $consensusFasta -o $consensusFastq
   
   
   # Build targets

@@ -29,16 +29,16 @@ Let's try a very simple mapping job (no chunking)
   $ cat map/build.ninja
   # Variables
   ncpus = 8
-  grid = qsub -sync y -cwd -V -b y -e log -o log
-  gridSMP = $grid -pe smp
   scratchDir = /scratch
+  grid = qsub -sync y -cwd -V -b y -e log -o log
+  gridSMP = $grid -pe smp $ncpus
   
   # Rules
   rule copySubreadsDataset
     command = $grid dataset create $out $in
   
   rule map
-    command = $gridSMP $ncpus pbalign --tmpDir=$scratchDir --nproc $ncpus $in $
+    command = $gridSMP pbalign --tmpDir=$scratchDir --nproc $ncpus $in $
         $reference $out
   
   rule mergeDatasetsForCondition

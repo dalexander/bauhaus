@@ -28,17 +28,17 @@ as a small diff.
   $ cat ctFromRuns/build.ninja
   # Variables
   ncpus = 8
-  grid = qsub -sync y -cwd -V -b y -e log -o log
-  gridSMP = $grid -pe smp
   scratchDir = /scratch
+  grid = qsub -sync y -cwd -V -b y -e log -o log
+  gridSMP = $grid -pe smp $ncpus
   
   # Rules
   rule copySubreadsDataset
     command = $grid dataset create $out $in
   
   rule map
-    command = $gridSMP $ncpus pbalign  --tmpDir=$scratchDir --nproc $ncpus $
-        $in $reference $out
+    command = $gridSMP pbalign  --tmpDir=$scratchDir --nproc $ncpus $in $
+        $reference $out
   
   rule splitByZmw
     command = $grid dataset split --zmws --targetSize 1 --chunks 8 --outdir $
@@ -53,10 +53,9 @@ as a small diff.
         --region_size=10000 $in $reference $out
   
   rule variantCalling
-    command = $gridSMP $ncpus variantCaller $modelPath $modelSpec $
-        --algorithm=arrow $coverageLimitArgument -x0 -q0 -j $ncpus $
-        --reportEffectiveCoverage $in -r $reference -o $out -o $
-        $consensusFasta -o $consensusFastq
+    command = $gridSMP variantCaller $modelPath $modelSpec --algorithm=arrow $
+        $coverageLimitArgument -x0 -q0 -j $ncpus --reportEffectiveCoverage $
+        $in -r $reference -o $out -o $consensusFasta -o $consensusFastq
   
   rule maskVariantsGff
     command = gffsubtract.pl $in $referenceMask > $out
