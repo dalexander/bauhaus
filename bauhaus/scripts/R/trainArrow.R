@@ -47,6 +47,13 @@ set.seed(args$seed)
 
 ###### DEFINITIONS #######
 use8Contexts    = F
+predictPw       = T
+
+if (predictPw) {
+  nOutcome <- 12
+} else {
+  nOutcome <- 4
+}
 
 ###### LOAD DATA ########
 loginfo("Loading BAM indices")
@@ -81,7 +88,11 @@ mkOutcome <- function(aln) {
   read = aln$read
   read[read == "-"] = "C" # Dummy value that overlaps with an actual factor, hack to avoid accounting for delete case
   # Generate the outcome factor
-  aln$outcome = factor(pw, levels = c(1, 2, 3)):factor(read, levels = c("A", "C", "G", "T"))
+  if (predictPw) {
+    aln$outcome = factor(pw, levels = c(1, 2, 3)):factor(read, levels = c("A", "C", "G", "T"))
+  } else {
+    aln$outcome = factor(read, levels = c("A", "C", "G", "T"))
+  }
   # Generate channel-specific SNR
   ctx = unitem::GenerateDinucleotideContextFromGappedRef(aln$ref, use8Contexts)
   snr = aln$snrA
@@ -178,7 +189,7 @@ outputModelToCpp <- function(fit, fname)
     renderMatrix <- function(mat) {
         renderRow <- function(i) {
             paste("        {",
-                  paste(formatC(mat$m[i,1:12], width=15, digits=9),
+                  paste(formatC(mat$m[i,1:nOutcome], width=15, digits=9),
                         collapse=", "),
                   "}")
         }
@@ -247,12 +258,16 @@ outputModelToJson <- function(fit, snrRanges)
   x <- list()
   x$ConsensusModelVersion <- unbox("3.0.0")
   x$ChemistryName         <- unbox("trained_condition")
-  x$ModelForm             <- unbox("PwSnr")
+  if (predictPw) {
+    x$ModelForm           <- unbox("PwSnr")
+  } else {
+    x$ModelForm           <- unbox("Snr")
+  }
   x$SnrRanges             <- snrRanges
   x$EmissionParameters    <- array(data=as.array(list(
-                                         data.matrix(fit$mPmf)[,1:12],
-                                         data.matrix(fit$bPmf)[,1:12],
-                                         data.matrix(fit$sPmf)[,1:12])))
+                                         data.matrix(fit$mPmf)[,1:nOutcome],
+                                         data.matrix(fit$bPmf)[,1:nOutcome],
+                                         data.matrix(fit$sPmf)[,1:nOutcome])))
   x$TransitionParameters  <- extractTransitionArray(fit)
   x$CounterWeight         <- unbox(3.0)  # TODO: how do we get this right?
   jsonOut <- file(file.path(args$output, "fit.json"), "wt")
@@ -273,7 +288,11 @@ plotEmissions <- function(fit, fname) {
   pdf(fname, width=12, height=12)
   for(i in 1:3) {
     df = reshape2::melt(mats[[i]], id.vars="CTX", value.name="prob", variable.name="outcome")
-    df$BP = sapply(as.character(df$outcome), function(x) strsplit(x, ":")[[1]][2])
+    if (predictPw) {
+      df$BP = sapply(as.character(df$outcome), function(x) strsplit(x, ":")[[1]][2])
+    } else {
+      df$BP = as.character(df$outcome)
+    }
     q = ggplot(df, aes(x=outcome, y=prob, fill=BP)) + geom_bar(stat="identity") + facet_wrap(~CTX) +
       theme_bw(base_size=10) + labs(x="PW:BP", y="Emission Probability", title=titles[i]) + ylim(0, 1)
     print(q)
