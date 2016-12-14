@@ -57,12 +57,16 @@ class PFlow(ContextTracker):
         self._buildStmts = []
         self._scriptsToBundle = {}
         self.bundleScript("run.sh")
-
+        self._grid = True
 
     # ----- script bundling ---------
 
     def bundleScript(self, scriptName, substitutions=dict()):
         self._scriptsToBundle[scriptName] = getScriptPath(scriptName)
+
+    def noGrid(self) :
+        """Disable the qsub/farm option"""
+        self._grid = False
 
     # ---- rules, build targets  -----
 
@@ -102,9 +106,13 @@ class PFlow(ContextTracker):
         with closing(ninja.Writer(f)) as w:
             w.comment("Variables")
             w.variable("ncpus", "8")
-            w.variable("grid", "qsub -sync y -cwd -V -b y -e log -o log")
-            w.variable("gridSMP", "$grid -pe smp")
             w.variable("scratchDir", "/scratch")
+            if self._grid:
+                w.variable("grid", "qsub -sync y -cwd -V -b y -e log -o log")
+                w.variable("gridSMP", "$grid -pe smp $ncpus")
+            else:
+                w.variable("grid", "")
+                w.variable("gridSMP", "")
             w.newline()
             w.comment("Rules")
             for rule in self._rules.iteritems():

@@ -16,7 +16,6 @@ def genUnrolledNoHQMapping(pflow, subreadSets, reference, splitFactor=8, doMerge
                              extraBlasrArgs=unrolledBlasrOptions)
 
 # --
-
 # TODO: I am actually not even sure whether BLASR supports unrolled
 # mapping while still respecting the HQ region.  We would like to have
 # such a workflow...

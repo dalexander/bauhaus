@@ -35,7 +35,7 @@ def genVariantCalling(pflow, alignedSubreadsSet, modelPath, modelSpec, reference
 
     vcRule = pflow.genRuleOnce(
         "variantCalling",
-        "$gridSMP $ncpus variantCaller $modelPath $modelSpec --algorithm=%s $coverageLimitArgument -x0 -q0 -j $ncpus --reportEffectiveCoverage $in -r $reference -o $out -o $consensusFasta -o $consensusFastq"
+        "$gridSMP variantCaller $modelPath $modelSpec --algorithm=%s $coverageLimitArgument -x0 -q0 -j $ncpus --reportEffectiveCoverage $in -r $reference -o $out -o $consensusFasta -o $consensusFastq"
         % (algorithm))
 
     bs = pflow.genBuildStatement(

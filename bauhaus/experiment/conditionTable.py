@@ -8,6 +8,7 @@ __all__ = [ "InputType",
 
 import csv, os.path as op, sys
 import eztable
+import io,codecs
 
 # TODO: we are using the non-public method ._get_columns on
 # eztable.Table objects.  That method should really be public--maybe
@@ -42,6 +43,10 @@ class ConditionTable(object):
     def __init__(self, inputCsv, resolver):
         if not op.isfile(inputCsv):
             raise ValueError("Missing input file: %s" % inputCsv)
+        nbytes = min(32, op.getsize(inputCsv))
+        raw= open(inputCsv, 'rb').read(nbytes)
+        if raw.startswith(codecs.BOM_UTF8):
+            raise TableValidationError("Input CSV file is in UTF-8 format. Please convert to ASCII or remove Byte Order Mark (BOM)")
         try:
             with open(inputCsv) as f:
                 cr = csv.reader(f)
@@ -50,7 +55,7 @@ class ConditionTable(object):
                     allRows[0], allRows[1:]
                 self.tbl = eztable.Table(columnNames, rows)
         except:
-            raise TableValidationError("Input CSV file can't be read/parsed")
+            raise TableValidationError("Input CSV file can't be read/parsed:" + str(sys.exc_info()[0]))
         self._validateTable()
         self._resolveInputs(resolver)
 
@@ -96,7 +101,7 @@ class ConditionTable(object):
         if {"AlignmentSet"}.issubset(cols):
             inputEncodings += 1
         if inputEncodings == 0:
-            raise TableValidationError("Input data not encoded in condition table")
+          raise TableValidationError("Input data not encoded in condition table. Table requires one and only one column (or pair of columns) as follows: ReportsPath, RunCode+ReportsFolder, SMRTLinkServer+JobId, JobPath, SubreadSet, AlignmentSet")
         if inputEncodings > 1:
             raise TableValidationError("Condition table can only represent input data in one way")
 

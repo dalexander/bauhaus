@@ -101,11 +101,11 @@ at that ninja script:
   # Variables
   ncpus = 8
   grid = qsub -sync y -cwd -V -b y -e log -o log
-  gridSMP = $grid -pe smp
+  gridSMP = $grid -pe smp $ncpus
 
   # Rules
   rule map
-    command = $gridSMP $ncpus pbalign --nproc $ncpus $in $reference $out
+    command = $gridSMP pbalign --nproc $ncpus $in $reference $out
 
   rule mergeAlignmentSetsForCondition
     command = $grid dataset merge $out $in
