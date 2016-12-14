@@ -41,7 +41,7 @@ def parseArgs():
     parser.add_argument(
         "--conditionTable", "-t",
         action="store", metavar="CONDITION_TABLE.CSV",
-        #required=True,
+        required=True,
         type=op.abspath)
     parser.add_argument(
         "--workflow", "-w",
