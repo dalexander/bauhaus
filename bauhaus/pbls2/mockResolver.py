@@ -7,7 +7,7 @@ from .exceptions import *
 class MockResolver(object):
     # For testing purposes
 
-    REFERENCE_MASKS_ROOT = "/mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks"
+    REFERENCE_MASKS_ROOT = "/pbi/dept/consensus/bauhaus/genome-masks"
     REFERENCES_ROOT = "/mnt/secondary/iSmrtanalysis/current/common/references"
 
     def __init__(self):
