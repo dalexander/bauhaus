@@ -61,3 +61,9 @@ class MockResolver(object):
             raise InvalidDataset, "%s not an alignmentset"
         else:
             return alignmentSet
+
+    def ensureTraceH5File(self, traceH5File):
+        if not traceH5File.endswith(".trc.h5"):
+            raise InvalidDataset, "%s not an trc.h5 file" % traceH5File
+        else:
+            return traceH5File

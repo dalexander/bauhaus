@@ -153,7 +153,7 @@ class Resolver(object):
 
     def ensureSubreadSet(self, subreadSet):
         if not subreadSet.endswith(".subreadset.xml"):
-            raise InvalidDataset, "%s not a subreadset"
+            raise InvalidDataset, "%s not a subreadset" % subreadSet
         elif not op.isfile(subreadSet):
             raise DataNotFound, "SubreadSet %s not found" % subreadSet
         else:
@@ -161,8 +161,16 @@ class Resolver(object):
 
     def ensureAlignmentSet(self, alignmentSet):
         if not alignmentSet.endswith(".alignmentset.xml"):
-            raise InvalidDataset, "%s not an alignmentset"
+            raise InvalidDataset, "%s not an alignmentset" % alignmentSet
         elif not op.isfile(alignmentSet):
             raise DataNotFound, "AlignmentSet %s not found" % alignmentSet
         else:
             return alignmentSet
+
+    def ensureTraceH5File(self, traceH5File):
+        if not traceH5File.endswith(".trc.h5"):
+            raise InvalidDataset, "%s not an trc.h5 file" % traceH5File
+        elif not op.isfile(traceH5File):
+            raise DataNotFound, "Trc.h5 file %s not found" % traceH5File
+        else:
+            return traceH5File
