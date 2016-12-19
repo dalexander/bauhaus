@@ -339,7 +339,7 @@ as a small diff.
   build Ecoli/variant_calling/arrow/masked-variants-5.gff: maskVariantsGff $
       Ecoli/variant_calling/arrow/variants-5.gff
     referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/ecoliK12_pbi_March2013-mask.gff
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build Ecoli/variant_calling/arrow/variants-10.gff: variantCalling $
       Ecoli/mapping/all_movies.alignmentset.xml
@@ -354,7 +354,7 @@ as a small diff.
   build Ecoli/variant_calling/arrow/masked-variants-10.gff: maskVariantsGff $
       Ecoli/variant_calling/arrow/variants-10.gff
     referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/ecoliK12_pbi_March2013-mask.gff
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build Ecoli/variant_calling/arrow/variants-15.gff: variantCalling $
       Ecoli/mapping/all_movies.alignmentset.xml
@@ -369,7 +369,7 @@ as a small diff.
   build Ecoli/variant_calling/arrow/masked-variants-15.gff: maskVariantsGff $
       Ecoli/variant_calling/arrow/variants-15.gff
     referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/ecoliK12_pbi_March2013-mask.gff
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build Ecoli/variant_calling/arrow/variants-20.gff: variantCalling $
       Ecoli/mapping/all_movies.alignmentset.xml
@@ -384,7 +384,7 @@ as a small diff.
   build Ecoli/variant_calling/arrow/masked-variants-20.gff: maskVariantsGff $
       Ecoli/variant_calling/arrow/variants-20.gff
     referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/ecoliK12_pbi_March2013-mask.gff
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build Ecoli/variant_calling/arrow/variants-30.gff: variantCalling $
       Ecoli/mapping/all_movies.alignmentset.xml
@@ -399,7 +399,7 @@ as a small diff.
   build Ecoli/variant_calling/arrow/masked-variants-30.gff: maskVariantsGff $
       Ecoli/variant_calling/arrow/variants-30.gff
     referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/ecoliK12_pbi_March2013-mask.gff
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build Ecoli/variant_calling/arrow/variants-40.gff: variantCalling $
       Ecoli/mapping/all_movies.alignmentset.xml
@@ -414,7 +414,7 @@ as a small diff.
   build Ecoli/variant_calling/arrow/masked-variants-40.gff: maskVariantsGff $
       Ecoli/variant_calling/arrow/variants-40.gff
     referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/ecoliK12_pbi_March2013-mask.gff
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build Ecoli/variant_calling/arrow/variants-50.gff: variantCalling $
       Ecoli/mapping/all_movies.alignmentset.xml
@@ -429,7 +429,7 @@ as a small diff.
   build Ecoli/variant_calling/arrow/masked-variants-50.gff: maskVariantsGff $
       Ecoli/variant_calling/arrow/variants-50.gff
     referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/ecoliK12_pbi_March2013-mask.gff
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build Ecoli/variant_calling/arrow/variants-60.gff: variantCalling $
       Ecoli/mapping/all_movies.alignmentset.xml
@@ -444,7 +444,7 @@ as a small diff.
   build Ecoli/variant_calling/arrow/masked-variants-60.gff: maskVariantsGff $
       Ecoli/variant_calling/arrow/variants-60.gff
     referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/ecoliK12_pbi_March2013-mask.gff
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build Ecoli/variant_calling/arrow/variants-80.gff: variantCalling $
       Ecoli/mapping/all_movies.alignmentset.xml
@@ -459,7 +459,7 @@ as a small diff.
   build Ecoli/variant_calling/arrow/masked-variants-80.gff: maskVariantsGff $
       Ecoli/variant_calling/arrow/variants-80.gff
     referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/ecoliK12_pbi_March2013-mask.gff
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build Ecoli/variant_calling/arrow/variants-100.gff: variantCalling $
       Ecoli/mapping/all_movies.alignmentset.xml
@@ -474,7 +474,7 @@ as a small diff.
   build Ecoli/variant_calling/arrow/masked-variants-100.gff: maskVariantsGff $
       Ecoli/variant_calling/arrow/variants-100.gff
     referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/ecoliK12_pbi_March2013-mask.gff
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build Lambda/variant_calling/alignments_summary.gff: summarize_coverage $
       Lambda/mapping/all_movies.alignmentset.xml
@@ -493,8 +493,7 @@ as a small diff.
   
   build Lambda/variant_calling/arrow/masked-variants-5.gff: maskVariantsGff $
       Lambda/variant_calling/arrow/variants-5.gff
-    referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/lambdaNEB-mask.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
   build Lambda/variant_calling/arrow/variants-10.gff: variantCalling $
       Lambda/mapping/all_movies.alignmentset.xml
@@ -508,8 +507,7 @@ as a small diff.
   
   build Lambda/variant_calling/arrow/masked-variants-10.gff: maskVariantsGff $
       Lambda/variant_calling/arrow/variants-10.gff
-    referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/lambdaNEB-mask.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
   build Lambda/variant_calling/arrow/variants-15.gff: variantCalling $
       Lambda/mapping/all_movies.alignmentset.xml
@@ -523,8 +521,7 @@ as a small diff.
   
   build Lambda/variant_calling/arrow/masked-variants-15.gff: maskVariantsGff $
       Lambda/variant_calling/arrow/variants-15.gff
-    referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/lambdaNEB-mask.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
   build Lambda/variant_calling/arrow/variants-20.gff: variantCalling $
       Lambda/mapping/all_movies.alignmentset.xml
@@ -538,8 +535,7 @@ as a small diff.
   
   build Lambda/variant_calling/arrow/masked-variants-20.gff: maskVariantsGff $
       Lambda/variant_calling/arrow/variants-20.gff
-    referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/lambdaNEB-mask.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
   build Lambda/variant_calling/arrow/variants-30.gff: variantCalling $
       Lambda/mapping/all_movies.alignmentset.xml
@@ -553,8 +549,7 @@ as a small diff.
   
   build Lambda/variant_calling/arrow/masked-variants-30.gff: maskVariantsGff $
       Lambda/variant_calling/arrow/variants-30.gff
-    referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/lambdaNEB-mask.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
   build Lambda/variant_calling/arrow/variants-40.gff: variantCalling $
       Lambda/mapping/all_movies.alignmentset.xml
@@ -568,8 +563,7 @@ as a small diff.
   
   build Lambda/variant_calling/arrow/masked-variants-40.gff: maskVariantsGff $
       Lambda/variant_calling/arrow/variants-40.gff
-    referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/lambdaNEB-mask.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
   build Lambda/variant_calling/arrow/variants-50.gff: variantCalling $
       Lambda/mapping/all_movies.alignmentset.xml
@@ -583,8 +577,7 @@ as a small diff.
   
   build Lambda/variant_calling/arrow/masked-variants-50.gff: maskVariantsGff $
       Lambda/variant_calling/arrow/variants-50.gff
-    referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/lambdaNEB-mask.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
   build Lambda/variant_calling/arrow/variants-60.gff: variantCalling $
       Lambda/mapping/all_movies.alignmentset.xml
@@ -598,8 +591,7 @@ as a small diff.
   
   build Lambda/variant_calling/arrow/masked-variants-60.gff: maskVariantsGff $
       Lambda/variant_calling/arrow/variants-60.gff
-    referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/lambdaNEB-mask.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
   build Lambda/variant_calling/arrow/variants-80.gff: variantCalling $
       Lambda/mapping/all_movies.alignmentset.xml
@@ -613,8 +605,7 @@ as a small diff.
   
   build Lambda/variant_calling/arrow/masked-variants-80.gff: maskVariantsGff $
       Lambda/variant_calling/arrow/variants-80.gff
-    referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/lambdaNEB-mask.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
   build Lambda/variant_calling/arrow/variants-100.gff: variantCalling $
       Lambda/mapping/all_movies.alignmentset.xml
@@ -628,8 +619,7 @@ as a small diff.
   
   build Lambda/variant_calling/arrow/masked-variants-100.gff: maskVariantsGff $
       Lambda/variant_calling/arrow/variants-100.gff
-    referenceMask = $
-        /mnt/secondary/Share/VariantCalling/Quiver/GenomeMasks/lambdaNEB-mask.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
   build coverage-titration.csv coverage-titration.pdf: $
       coverageTitrationSummaryAnalysis $
