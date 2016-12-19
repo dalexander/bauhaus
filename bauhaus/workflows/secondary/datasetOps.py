@@ -66,6 +66,14 @@ def reportsDirectory(subreadSet):
 
 def adaptersFasta(subreadSet):
     """
+    Presently we poke around in the run dir to find the `adapters.fasta`.
+    In the future, this will be indicated as an external resource in the dataset XML.
+    """
+    return op.join(reportsDirectory(subreadSet), movieName(subreadSet) + ".adapters.fasta")
+
+
+def extractedAdaptersFasta(subreadSet):
+    """
     Look in the XML file for the adapters.fasta file. If not found, look in the same
     folder as the XML file.
     """

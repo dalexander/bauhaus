@@ -91,7 +91,7 @@ class HQMetricsWorkflow(Workflow):
 
                     subreadset = inputs[0] + ""
                     movieName_ = movieName(subreadset)
-                    adaptersFile = adaptersFasta(subreadset)
+                    adaptersFile = extractedAdaptersFasta(subreadset)
 
                 else:
                     raise NotImplementedError, "Support not yet implemented for this input type %s" % inputs[0]
