@@ -13,7 +13,7 @@ def genNoHQSubreads(pflow, subreadSets):
     """
     bam2bamNoHQRule = pflow.genRuleOnce(
         "deHQify",
-        "$gridSMP $ncpus bam2bam -b $ncpus -j $ncpus --fullHQ --adapters $adapters $subreadsIn $scrapsIn -o $outPrefix &&" +
+        "$gridSMP bam2bam -b $ncpus -j $ncpus --fullHQ --adapters $adapters $subreadsIn $scrapsIn -o $outPrefix &&" +
         "dataset create --type SubreadSet $out $outBam")
     noHQSubreadSets = []
     for subreadSet in subreadSets:

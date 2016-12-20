@@ -46,6 +46,13 @@ def subreadsBam(subreadSet):
 def scrapsBam(subreadSet):
     et = ElementTree.parse(subreadSet)
     q = et.findall('.//{http://pacificbiosciences.com/PacBioBaseDataModel.xsd}ExternalResource[@MetaType="PacBio.SubreadFile.ScrapsBamFile"]')
+    if len(q) == 0:
+        raise IOError,"scraps.bam not found in " + subreadSet
+    if len(q) > 1:
+        print "While parsing " + subreadSet + " found " + str(len(q)) + " scraps.bam resources:"
+        for x in q:
+            print x.attrib["ResourceId"]
+        raise IOError,"too many scraps.bams found"
     assert len(q) == 1
     scrapsBamFileName=q[0].attrib["ResourceId"]
     if not op.isabs(scrapsBamFileName):
@@ -65,7 +72,26 @@ def adaptersFasta(subreadSet):
     return op.join(reportsDirectory(subreadSet), movieName(subreadSet) + ".adapters.fasta")
 
 
+def extractedAdaptersFasta(subreadSet):
+    """
+    Look in the XML file for the adapters.fasta file. If not found, look in the same
+    folder as the XML file.
+    """
 
+    et = ElementTree.parse(subreadSet)
+    q = et.findall('.//{http://pacificbiosciences.com/PacBioBaseDataModel.xsd}ExternalResource[@MetaType="PacBio.SubreadFile.AdapterFastaFile"]')
+    if len(q) == 0:
+        fastaFile = op.join(reportsDirectory(subreadSet), movieName(subreadSet) + ".adapters.fasta")
+    elif len(q) > 1:
+        print "While parsing " + subreadSet + " found " + str(len(q)) + " adapters resources:"
+        for x in q:
+            print x.attrib["ResourceId"]
+        raise IOError,"too many adapsters.fasta found"
+    else:
+        fastaFile=q[0].attrib["ResourceId"]
+    if not op.isabs(fastaFile):
+        fastaFile = op.join(op.dirname(subreadSet), fastaFile)
+    return fastaFile
 
 # ------- Split/merge -------------
 

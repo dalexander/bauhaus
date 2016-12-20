@@ -3,3 +3,5 @@
 bauhaus.egg-info
 build
 dist
+.idea
+cmake-build-debug

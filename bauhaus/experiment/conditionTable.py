@@ -22,6 +22,7 @@ class InputType(object):
     AlignmentSet          = 2
     ConsensusReadSet      = 3
     ConsensusAlignmentSet = 4
+    TraceH5File           = 5
 
 def _pVariables(tbl):
     return [ k for k in tbl.column_names if k.startswith("p_") ]
@@ -100,6 +101,8 @@ class ConditionTable(object):
             inputEncodings += 1
         if {"AlignmentSet"}.issubset(cols):
             inputEncodings += 1
+        if {"TraceH5File"}.issubset(cols):
+            inputEncodings += 1
         if inputEncodings == 0:
           raise TableValidationError("Input data not encoded in condition table. Table requires one and only one column (or pair of columns) as follows: ReportsPath, RunCode+ReportsFolder, SMRTLinkServer+JobId, JobPath, SubreadSet, AlignmentSet")
         if inputEncodings > 1:
@@ -119,6 +122,8 @@ class ConditionTable(object):
             return resolver.ensureSubreadSet(rowRecord.SubreadSet)
         elif {"AlignmentSet"}.issubset(cols):
             return resolver.ensureAlignmentSet(rowRecord.AlignmentSet)
+        elif {"TraceH5File"}.issubset(cols):
+            return resolver.ensureTraceH5File(rowRecord.TraceH5File)
 
 
     def _resolveInputs(self, resolver):
@@ -173,6 +178,8 @@ class ConditionTable(object):
            {"JobPath"}.issubset(cols) or \
            {"AlignmentSet"}.issubset(cols):
             return InputType.AlignmentSet
+        if {"TraceH5File"}.issubset(cols) :
+            return InputType.TraceH5File
         raise NotImplementedError, "Input type not recognized/supported"
 
     def inputs(self, condition):
