@@ -21,6 +21,6 @@ echo "$(env | grep R_LIBS)"
 echo "$(R -q -e 'print(.libPaths())')"
 
 R -q -e 'install.packages(c("Rcpp", "RcppEigen"), repos="http://cran.us.r-project.org")'
-R -q -e 'install.packages(c("argparse", "argparser", "data.table", "devtools", "digest", "doMC", "doParallel", "dplyr", "feather", "ggplot2", "", "gridExtra", "gtools", "logging", "plyr", "tidyr", "wesanderson", "xml2"), repos="http://cran.us.r-project.org")'
+R -q -e 'install.packages(c("argparse", "argparser", "assertthat", "data.table", "devtools", "digest", "doMC", "doParallel", "dplyr", "feather", "ggplot2", "gridExtra", "gtools", "lazyeval", "logging", "plyr", "tibble", "tidyr", "wesanderson", "xml2"), repos="http://cran.us.r-project.org")'
 R -q -e 'library(devtools) ; install_github("PacificBiosciences/pbbamr")'
 R -q -e 'library(devtools) ; install_git("http://bitbucket.nanofluidics.com:7990/scm/sat/unitem-sat.git")'
