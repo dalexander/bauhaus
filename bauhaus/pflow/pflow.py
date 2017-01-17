@@ -3,7 +3,7 @@ from bauhaus.utils import mkdirp, chmodPlusX
 
 from collections import OrderedDict, namedtuple
 from contextlib import closing, contextmanager
-import ninja, shutil, os.path as op
+import ninja_syntax as ninja, shutil, os.path as op
 
 
 Rule           = namedtuple("Rule", ("name", "command"))
