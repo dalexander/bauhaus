@@ -1,0 +1,7 @@
+Condition,RunCode,ReportsFolder,Genome,p_Basecaller
+A,3150128-0001,,lambdaNEB,Default
+B,3150128-0002,,lambdaNEB,Default
+C,3150128-0001,Params1,lambdaNEB,Params1
+D,3150128-0002,Params1,lambdaNEB,Params1
+E,3150128-0001,Params2,lambdaNEB,Params2
+F,3150128-0002,Params2,lambdaNEB,Params2
