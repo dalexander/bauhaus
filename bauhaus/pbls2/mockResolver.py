@@ -17,13 +17,17 @@ class MockResolver(object):
         if not _isRuncode(runCode):
             raise ValueError('Argument "%s" does not appear to be a runcode' % runCode)
         lookup = \
-            { "3150128-0001" : "/pbi/collections/315/3150128/r54008_20160308_001811/1_A01/m54008_160308_002050.subreadset.xml" ,
-              "3150128-0002" : "/pbi/collections/315/3150128/r54008_20160308_001811/2_B01/m54008_160308_053311.subreadset.xml" ,
-              "3150122-0001" : "/pbi/collections/315/3150122/r54011_20160305_235615/1_A01/m54011_160305_235923.subreadset.xml" ,
-              "3150122-0002" : "/pbi/collections/315/3150122/r54011_20160305_235615/2_B01/m54011_160306_050740.subreadset.xml" }
-        if runCode not in lookup or reportsFolder != "":
-            raise DataNotFound(runCode)
-        return lookup[runCode]
+            { ("3150128-0001", "")        : "/pbi/collections/315/3150128/r54008_20160308_001811/1_A01/m54008_160308_002050.subreadset.xml" ,
+              ("3150128-0002", "")        : "/pbi/collections/315/3150128/r54008_20160308_001811/2_B01/m54008_160308_053311.subreadset.xml" ,
+              ("3150128-0001", "Params1") : "/pbi/collections/315/3150128/r54008_20160308_001811/1_A01/Params1/m54008_160308_002050.subreadset.xml" ,
+              ("3150128-0002", "Params1") : "/pbi/collections/315/3150128/r54008_20160308_001811/2_B01/Params1/m54008_160308_053311.subreadset.xml" ,
+              ("3150128-0001", "Params2") : "/pbi/collections/315/3150128/r54008_20160308_001811/1_A01/Params2/m54008_160308_002050.subreadset.xml" ,
+              ("3150128-0002", "Params2") : "/pbi/collections/315/3150128/r54008_20160308_001811/2_B01/Params2/m54008_160308_053311.subreadset.xml" ,
+              ("3150122-0001", "")        : "/pbi/collections/315/3150122/r54011_20160305_235615/1_A01/m54011_160305_235923.subreadset.xml" ,
+              ("3150122-0002", "")        : "/pbi/collections/315/3150122/r54011_20160305_235615/2_B01/m54011_160306_050740.subreadset.xml" }
+        if (runCode, reportsFolder) not in lookup:
+            raise DataNotFound("%s/%s" % (runCode, reportsFolder))
+        return lookup[(runCode, reportsFolder)]
 
     def resolveReference(self, referenceName):
         if referenceName not in ["lambdaNEB", "ecoliK12_pbi_March2013"]:

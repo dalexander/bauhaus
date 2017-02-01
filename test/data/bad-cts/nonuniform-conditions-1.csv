@@ -1,0 +1,5 @@
+Condition,RunCode,ReportsFolder,Genome,p_Chemistry
+ControlChem,3150120-0001,,lambdaNEB,Control
+ControlChem,3150120-0002,,ecoliK12_pbi_March2013,Control
+SparklyChem,3150128-0001,,lambdaNEB,Sparkly
+SparklyChem,3150128-0002,,ecoliK12_pbi_March2013,Sparkly

@@ -1,3 +1,0 @@
-| Condition  |      RunCode | ReportsFolder | Genome          | p_Adapter | p_Batch |
-|------------+--------------+---------------+-----------------+-----------+---------|
-| TC6_Batch2 | 3150236-0002 | subsampled32K | 2k_4_insertOnly | TC6       |       2 |

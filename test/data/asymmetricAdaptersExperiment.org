@@ -1,7 +1,0 @@
-| Condition        |      RunCode | ReportsFolder | Genome    | p_Adapter | p_Batch |
-|------------------+--------------+---------------+-----------+-----------+---------|
-| TC6_PolyA_Batch1 | 3190023-0014 |               |           | TC6_PolyA | 1       |
-| TC6_SCR_Batch1   | 3190023-0016 |               |           | TC6_SCR   | 1       |
-| TC6_Batch2       | 3150236-0002 |               |           | TC6       | 2       |
-| TC6_SCR_Batch2   | 3150236-0003 |               |           | TC6_SCR   | 2       |
-| TC6_PolyA_Batch2 | 3150236-0004 |               |           | TC6_PolyA | 2       |

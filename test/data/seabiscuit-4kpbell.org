@@ -1,4 +1,0 @@
-| Condition |      RunCode | ReportsFolder | Genome                                       |
-|-----------+--------------+---------------+----------------------------------------------|
-| SB-4kpb-1 | 3150467-0002 |               | pBR322_HindIII_scr_F_EcoRI_tc6_R_unrolled12x |
-| SB-4kpb-2 | 3150496-0001 | BAM_RE-ADP    | pBR322_HindIII_scr_F_EcoRI_tc6_R_unrolled12x |
