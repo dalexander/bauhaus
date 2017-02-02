@@ -1,0 +1,23 @@
+{
+    "driver": {
+        "env": {},
+        "exe": "ReadPlots.R run-rtc "
+        "serialization": "json"
+    },
+    "resolved_tool_contract": {
+        "_comment": "Created by pbcommand v0.4.11",
+        "input_files": [
+            {{ conditions_json }}
+        ],
+        "is_distributed": true,
+        "log_level": "INFO",
+        "nproc": 1,
+        "options": {},
+        "output_files": [
+            {{ output_nonce }}
+        ],
+        "resources": [],
+        "task_type": "pbsmrtpipe.task_types.standard",
+        "tool_contract_id": "pbcommandR.tasks.lib_diagnostic_plotter"
+    }
+}
