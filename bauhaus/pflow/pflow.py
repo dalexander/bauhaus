@@ -49,20 +49,24 @@ class ContextTracker(object):
         return dict(self._context)
 
 
+
+BundledResource = namedtuple("BundledResource", ("resourceName", "destPath", "substitutions"))
+
 class PFlow(ContextTracker):
 
     def __init__(self, logDir=""):
         super(PFlow, self).__init__()
         self._rules = OrderedDict()
         self._buildStmts = []
-        self._resourcesToBundle = {}
+        self._resourcesToBundle = []
         self.bundleResource("run.sh")
         self._grid = True
 
     # ----- script/resource bundling ---------
 
-    def bundleResource(self, resourceName, substitutions=dict()):
-        self._resourcesToBundle[resourceName] = getResourcePath(resourceName)
+    def bundleResource(self, resourceName, destPath=None, substitutions=dict()):
+        assert not substitutions
+        self._resourcesToBundle.append(BundledResource(resourceName, destPath, substitutions))
 
     def noGrid(self) :
         """Disable the qsub/farm option"""
@@ -124,9 +128,14 @@ class PFlow(ContextTracker):
                 w.build(buildStmt.outputs, buildStmt.rule, buildStmt.inputs,
                         variables=buildStmt.variables)
                 w.newline()
-        # Bundle the resources
-        for (resName, resSrcPath) in self._resourcesToBundle.iteritems():
-            resDestPath = resName
+
+        # Install the bundled resources
+        for br in self._resourcesToBundle:
+            resSrcPath = getResourcePath(br.resourceName)
+            resDestPath = br.destPath or br.resourceName
             mkdirp(op.dirname(resDestPath))
-            shutil.copy(resSrcPath, resDestPath)
-            chmodPlusX(resDestPath)
+            if not br.substitutions:
+                shutil.copy(resSrcPath, resDestPath)
+            else:
+                # NYI
+                assert False

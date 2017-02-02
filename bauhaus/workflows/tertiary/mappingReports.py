@@ -17,7 +17,7 @@ def generateToolContract(pflow, toolName):
     Generate a tool contract for running one of the mapping report
     plotting tools from "internaltools"
     """
-    pass
+
 
 class MappingReportsWorkflow(Workflow):
     """
