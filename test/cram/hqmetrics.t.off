@@ -9,14 +9,17 @@
 
   $ tree map
   map
-  |-- R
-  |   `-- hqrf_pbbamr.R
   |-- build.ninja
   |-- condition-table.csv
+  |-- data
+  |   `-- 600bp_Control_c2.fasta
   |-- log
-  `-- run.sh
+  |-- run.sh
+  `-- scripts
+      `-- R
+          `-- hqrf_pbbamr.R
   
-  2 directories, 4 files
+  4 directories, 5 files
 
 
   $ cat map/condition-table.csv
@@ -33,11 +36,20 @@
   
   # Rules
   rule hqrf_pbbamr
-    command = $grid Rscript --verbose R/hqrf_pbbamr.R $origbam xscraps $in $out
+    command = $grid Rscript --verbose scripts/R/hqrf_pbbamr.R $subreadsbam $
+        $scrapsbam $in $out
   
   rule bam2bam_nohq
     command = $grid bam2bam -j $ncpus -b $ncpus --fullHQ --adapters $adapters $
         -o $outPrefix $in
+  
+  rule baz2bam
+    command = $grid baz2bam -j $ncpus -b $ncpus --minSnr=0 --metadata $
+        $metadata --adapters $adapters --controls $controls -o $outPrefix $in
+  
+  rule t2b
+    command = $grid stdbuf -o 0 $basecaller --internal --input $in --output $
+        $out --logoutput $log
   
   rule subreadset_create
     command = $grid dataset create $out $in
@@ -128,7 +140,9 @@
   build a/m54003_161110_020238.hqrm.pdf $
       a/m54003_161110_020238.hqrm_metrics.csv: hqrf_pbbamr $
       a/mapping/all_movies.alignmentset.xml
-    origbam = $
+    subreadsbam = $
         /pbi/collections/315/3150477/r54003_20161109_183934/2_B01/m54003_161110_020238.subreads.bam
+    scrapsbam = $
+        /pbi/collections/315/3150477/r54003_20161109_183934/2_B01/m54003_161110_020238.scraps.bam
   
 

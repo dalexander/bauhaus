@@ -62,12 +62,12 @@ class CoverageTitrationReportsWorkflow(Workflow):
         return CoverageTitrationConditionTable
 
     def generate(self, pflow, ct):
-        pflow.bundleScript("R/coverageTitrationPlots.R")
+        pflow.bundleResource("scripts/R/coverageTitrationPlots.R")
         ctOuts = CoverageTitrationWorkflow().generate(pflow, ct)
         flatCtOuts = listConcat(ctOuts.values())
         ctSummaryRule = pflow.genRuleOnce(
             "coverageTitrationSummaryAnalysis",
-            "Rscript --vanilla R/coverageTitrationPlots.R .")
+            "Rscript --vanilla scripts/R/coverageTitrationPlots.R .")
         bs = pflow.genBuildStatement(
             [ "coverage-titration.csv", "coverage-titration.pdf"],
             "coverageTitrationSummaryAnalysis",

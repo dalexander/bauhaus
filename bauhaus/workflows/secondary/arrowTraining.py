@@ -32,10 +32,10 @@ class ArrowTrainingWorkflow(Workflow):
                 inputs.extend(pflow.genBuildStatement([ALIGN_XML], "symlink", [alignmentSet]).outputs)
                 inputs.extend(pflow.genBuildStatement([REF_FASTA], "symlink", [reference]).outputs)
                 inputs.extend(pflow.genBuildStatement([REF_FAIDX], "symlink", [reference + ".fai"]).outputs)
-        pflow.bundleScript("R/trainArrow.R")
+        pflow.bundleResource("scripts/R/trainArrow.R")
         pflow.genRuleOnce(
             "trainArrow",
-            "$grid Rscript --vanilla R/trainArrow.R training")
+            "$grid Rscript --vanilla scripts/R/trainArrow.R training")
         bs = pflow.genBuildStatement(
             [ "fit.json", "Emissions.pdf", "Transitions.pdf" ],
             "trainArrow",

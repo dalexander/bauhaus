@@ -166,13 +166,13 @@ class CCSMappingReportsWorkflow(Workflow):
         return ResequencingConditionTable
 
     def generate(self, pflow, ct):
-        pflow.bundleScript("R/ccsMappingPlots.R")
+        pflow.bundleResource("scripts/R/ccsMappingPlots.R")
         ccsMappingOutputs = CCSMappingWorkflow().generate(pflow, ct)
         flatOutputs = listConcat(ccsMappingOutputs.values())
 
         ccsSummaryRule = pflow.genRuleOnce(
             "ccsMappingSummaryAnalysis",
-            "Rscript --vanilla R/ccsMappingPlots.R .")
+            "Rscript --vanilla scripts/R/ccsMappingPlots.R .")
         bs = pflow.genBuildStatement(
             [ "ccs-mapping.pdf"],
             "ccsMappingSummaryAnalysis",

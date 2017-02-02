@@ -17,10 +17,10 @@ class HQMetricsWorkflow(Workflow):
 
     def generate(self, pflow, ct):
         outputDict = {}
-        rscript = "R/hqrf_pbbamr.R"
-        pflow.bundleScript(rscript)
-        controls = "fasta/600bp_Control_c2.fasta"
-        pflow.bundleScript(controls)
+        rscript = "scripts/R/hqrf_pbbamr.R"
+        pflow.bundleResource(rscript)
+        controls = "data/600bp_Control_c2.fasta"
+        pflow.bundleResource(controls)
 
         # R script merges  nohq_aligned reads with HQR regions
         pflow.genRuleOnce("hqrf_pbbamr",

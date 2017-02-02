@@ -1,4 +1,4 @@
-from bauhaus.scripts import getScriptPath
+from bauhaus.resources import getResourcePath
 from bauhaus.utils import mkdirp, chmodPlusX
 
 from collections import OrderedDict, namedtuple
@@ -55,14 +55,14 @@ class PFlow(ContextTracker):
         super(PFlow, self).__init__()
         self._rules = OrderedDict()
         self._buildStmts = []
-        self._scriptsToBundle = {}
-        self.bundleScript("run.sh")
+        self._resourcesToBundle = {}
+        self.bundleResource("run.sh")
         self._grid = True
 
-    # ----- script bundling ---------
+    # ----- script/resource bundling ---------
 
-    def bundleScript(self, scriptName, substitutions=dict()):
-        self._scriptsToBundle[scriptName] = getScriptPath(scriptName)
+    def bundleResource(self, resourceName, substitutions=dict()):
+        self._resourcesToBundle[resourceName] = getResourcePath(resourceName)
 
     def noGrid(self) :
         """Disable the qsub/farm option"""
@@ -124,9 +124,9 @@ class PFlow(ContextTracker):
                 w.build(buildStmt.outputs, buildStmt.rule, buildStmt.inputs,
                         variables=buildStmt.variables)
                 w.newline()
-        # Bundle the scripts
-        for (scriptName, scriptSrcPath) in self._scriptsToBundle.iteritems():
-            scriptDestPath = scriptName
-            mkdirp(op.dirname(scriptDestPath))
-            shutil.copy(scriptSrcPath, scriptDestPath)
-            chmodPlusX(scriptDestPath)
+        # Bundle the resources
+        for (resName, resSrcPath) in self._resourcesToBundle.iteritems():
+            resDestPath = resName
+            mkdirp(op.dirname(resDestPath))
+            shutil.copy(resSrcPath, resDestPath)
+            chmodPlusX(resDestPath)

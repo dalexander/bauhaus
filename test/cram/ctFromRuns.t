@@ -10,14 +10,15 @@ Run a bigger workflow--coverage titration with reports.
 
   $ tree ctFromRuns
   ctFromRuns
-  |-- R
-  |   `-- coverageTitrationPlots.R
   |-- build.ninja
   |-- condition-table.csv
   |-- log
-  `-- run.sh
+  |-- run.sh
+  `-- scripts
+      `-- R
+          `-- coverageTitrationPlots.R
   
-  2 directories, 4 files
+  3 directories, 4 files
 
 
 
@@ -61,7 +62,7 @@ as a small diff.
     command = gffsubtract.pl $in $referenceMask > $out
   
   rule coverageTitrationSummaryAnalysis
-    command = Rscript --vanilla R/coverageTitrationPlots.R .
+    command = Rscript --vanilla scripts/R/coverageTitrationPlots.R .
   
   
   # Build targets
