@@ -1,5 +1,5 @@
 from bauhaus.resources import getResourcePath
-from bauhaus.utils import mkdirp, chmodPlusX
+from bauhaus.utils import mkdirp
 
 from collections import OrderedDict, namedtuple
 from contextlib import closing, contextmanager
