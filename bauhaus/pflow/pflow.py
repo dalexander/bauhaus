@@ -1,9 +1,10 @@
 from bauhaus.resources import getResourcePath
-from bauhaus.utils import mkdirp
+from bauhaus.utils import mkdirp, readFile, writeFile
 
 from collections import OrderedDict, namedtuple
 from contextlib import closing, contextmanager
-import ninja_syntax as ninja, shutil, os.path as op
+import ninja_syntax as ninja, shutil, os.path as op, jinja2
+
 
 
 Rule           = namedtuple("Rule", ("name", "command"))
@@ -65,7 +66,6 @@ class PFlow(ContextTracker):
     # ----- script/resource bundling ---------
 
     def bundleResource(self, resourceName, destPath=None, substitutions=dict()):
-        assert not substitutions
         self._resourcesToBundle.append(BundledResource(resourceName, destPath, substitutions))
 
     def noGrid(self) :
@@ -137,5 +137,6 @@ class PFlow(ContextTracker):
             if not br.substitutions:
                 shutil.copy(resSrcPath, resDestPath)
             else:
-                # NYI
-                assert False
+                tContent = readFile(resSrcPath)
+                t = jinja2.Template(tContent)
+                writeFile(resDestPath, t.render(br.substitutions))

@@ -4,24 +4,48 @@ import os.path as op
 
 from bauhaus import Workflow
 from bauhaus.experiment import (InputType, ResequencingConditionTable)
-#from .datasetOps import *
+from bauhaus.workflows.secondary import ChunkedMappingWorkflow
+from bauhaus.utils import mkdirp, listConcat
 
-def generateConditionsJSON(pflow, ct):
+PLOTTING_GROUPS = [ "PbiPlots", "PbiSampledPlots" ]
+PLOTTING_TOOLS_ROOT = "/pbi/dept/itg/internaltools" # TODO: ATM we are not bundling these, rather we run them from NFS
+
+def generateConditionsJSON(pflow, ct, alignmentSets):
     """
     Generate a pbcommandR-compatible "condition table" JSON
     """
-    pass
+    pflow.bundleResource("conditions.json",
+                         substitutions=dict(
+                             conditions=ct.conditions,
+                             alignmentSets=alignmentSets,
+                             referenceSets={ c : ct.reference(c) for c in ct.conditions }))
+
+
 
 def generateToolContract(pflow, toolName):
     """
     Generate a tool contract for running one of the mapping report
     plotting tools from "internaltools"
     """
+    destDir = "reports/%s" % toolName
+    mkdirp(destDir)
+    tcName = "rtc-%s.json" % toolName
+    destTcPath = op.join(destDir, tcName)
+    noncePath = op.join(destDir, "file.xml")
+    conditionsJsonPath = "conditions.json"
+    pflow.bundleResource("tool-contracts/%s" % tcName, destTcPath,
+                         substitutions = dict(conditions_json=op.abspath(conditionsJsonPath),
+                                              output_nonce=op.abspath(noncePath)))
+    return noncePath
 
+
+def generateResequencingPlotToolContracts(pflow):
+    for pg in PLOTTING_GROUPS:
+        generateToolContract(pflow, pg)
 
 class MappingReportsWorkflow(Workflow):
     """
-    Basic mapping---not chunked, just dead simple.
+    Chunked mapping followed by plots/reports
     """
     @staticmethod
     def name():
@@ -32,7 +56,21 @@ class MappingReportsWorkflow(Workflow):
         return ResequencingConditionTable
 
     def generate(self, pflow, ct):
-        outputDict = {}
-        for condition in ct.conditions:
-            with pflow.context("condition", condition):
-                pass
+        mapping = ChunkedMappingWorkflow().generate(pflow, ct)
+        alignmentSets = { c : op.abspath(mapping[c][0]) for c in mapping }
+        flatMappingOuts = listConcat(mapping.values())
+        generateConditionsJSON(pflow, ct, alignmentSets)
+
+        # run plots
+        for plotGroup in PLOTTING_GROUPS:
+            toolName = plotGroup
+            outputNonce = generateToolContract(pflow, toolName)
+            pbiPlotsRule = pflow.genRuleOnce(
+                toolName,
+                PLOTTING_TOOLS_ROOT + "{toolName} run-rtc reports/{toolName}/rtc-{toolName}.json".format(toolName=toolName))
+            bs = pflow.genBuildStatement(
+                [ outputNonce ],
+                toolName,
+                flatMappingOuts)
+
+        # no output for now

@@ -13,3 +13,13 @@ def chmodPlusX(path):
 
 def listConcat(lsts):
     return list(itertools.chain(*lsts))
+
+def readFile(path):
+    return open(path).read()
+
+def writeFile(path, content):
+    with open(path, "w") as f:
+        f.write(content)
+
+def quote(s):
+    return '"%s"' % s

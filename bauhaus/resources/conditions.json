@@ -1,0 +1,13 @@
+{
+    "pipelineId": "pbpipelines_internal.pipelines.internal_cond_r_plots",
+    "conditions": [
+        {% for conditionId in conditions %}
+        {
+            "condId": {{ conditionId|tojson }},
+            "subreadset": "NA",
+            "alignmentset": {{ alignmentSets[conditionId]|tojson }},
+            "referenceset": {{ referenceSets[conditionId]|tojson }}
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
