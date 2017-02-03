@@ -152,7 +152,7 @@ class Resolver(object):
         return self.findAlignmentSet(jobDir)
 
     def ensureSubreadSet(self, subreadSet):
-        if not subreadSet.endswith(".subreadset.xml"):
+        if not (subreadSet.endswith(".subreadset.xml") or subreadSet.endswith(".subreads.bam")):
             raise InvalidDataset, "%s not a subreadset" % subreadSet
         elif not op.isfile(subreadSet):
             raise DataNotFound, "SubreadSet %s not found" % subreadSet

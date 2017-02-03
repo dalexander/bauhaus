@@ -55,7 +55,7 @@ class MockResolver(object):
         return op.join(jobDir, "tasks/pbalign.tasks.consolidate_bam-0/final.alignmentset.alignmentset.xml")
 
     def ensureSubreadSet(self, subreadSet):
-        if not subreadSet.endswith(".subreadset.xml"):
+        if not subreadSet.endswith(".subreadset.xml") or subreadset.endswith(".subreads.bam"):
             raise InvalidDataset, "%s not a subreadset"
         else:
             return subreadSet

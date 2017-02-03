@@ -1,0 +1,3 @@
+Condition,SubreadSet,Genome
+MovieA,/pbi/dept/secondary/siv/testdata/SA3-DS/ecoli/tiny-multimovie/m140819_064416_42139_c100694812550000001823149303241580_s1_p0.tiny.subreads.bam,ecoliK12_pbi_March2013
+MovieB,/pbi/dept/secondary/siv/testdata/SA3-DS/ecoli/tiny-multimovie/m140913_005018_42139_c100713652400000001823152404301534_s1_p0.tiny.subreads.bam,ecoliK12_pbi_March2013

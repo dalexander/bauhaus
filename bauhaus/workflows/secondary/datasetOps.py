@@ -2,19 +2,19 @@ import os.path as op
 import re
 from xml.etree import ElementTree
 
-def movieName(filename):
+def movieName(dsetFilename):
     """
     The movieName is reckoned as the first .-delimited part of the
     basename.
 
     (Filename is:
 
-     dir/movieName[.chunkName].dsettype.xml    )
+     dir/movieName[.chunkName].dsettype.{xml,bam}    )
     """
 
-    base = op.basename(filename)
+    base = op.basename(dsetFilename)
     fields = base.split(".")
-    assert len(fields) > 2 and fields[-1] == "xml"
+    assert len(fields) > 2 and fields[-1] in ("xml", "bam")
     if len(fields) > 3 and re.match(r"chunk[0-9]+", fields[-3]):
         movieName = ".".join(fields[:-3])
     else:
@@ -27,11 +27,11 @@ def entityName(filename):
 
     This is encoded in the filename as:
 
-     dir/movieName[.chunkName].dsettype.xml
+     dir/movieName[.chunkName].dsettype.{xml,bam}
     """
     base = op.basename(filename)
     fields = base.split(".")
-    assert len(fields) in (3, 4) and fields[-1] == "xml"
+    assert len(fields) in (3, 4) and fields[-1] in ("xml", "bam")
     return ".".join(fields[:-2])
 
 def subreadsBam(subreadSet):
