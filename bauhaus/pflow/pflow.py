@@ -62,15 +62,37 @@ class PFlow(ContextTracker):
         self._resourcesToBundle = []
         self.bundleResource("run.sh")
         self._grid = True
+        self._nChunks = 8
 
     # ----- script/resource bundling ---------
 
     def bundleResource(self, resourceName, destPath=None, substitutions=dict()):
         self._resourcesToBundle.append(BundledResource(resourceName, destPath, substitutions))
 
+
+    # ----- configuration ------
+    # --- TODO: I don't think this belongs in the PFlow class
+
     def noGrid(self) :
         """Disable the qsub/farm option"""
         self._grid = False
+
+    @property
+    def chunks(self):
+        """
+        Set the nChunks for workflows that support scatter/gather
+        - 0 means "don't do chunks"
+        - n>0 means split datasets n ways for scatter/gather
+
+        TODO: I think we ideally want to specify the size of a chunk, not the nChunks
+        """
+        return self._nChunks
+
+    @chunks.setter
+    def chunks(self, nChunks):
+        if (not isinstance(nChunks, int)) or (nChunks < 0):
+            raise ValueError, "Illegal nChunks"
+        self._nChunks = nChunks
 
     # ---- rules, build targets  -----
 

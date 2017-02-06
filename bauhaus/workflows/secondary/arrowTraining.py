@@ -3,7 +3,7 @@ __all__ = [ "ArrowTrainingWorkflow" ]
 from bauhaus import Workflow
 from bauhaus.experiment import ResequencingConditionTable
 
-from .mapping import ChunkedMappingWorkflow
+from .mapping import MappingWorkflow
 
 
 class ArrowTrainingWorkflow(Workflow):
@@ -20,7 +20,7 @@ class ArrowTrainingWorkflow(Workflow):
 
     def generate(self, pflow, ct):
         pflow.genRuleOnce("symlink", "ln -s $$(readlink -f $in) $out")
-        mapping = ChunkedMappingWorkflow().generate(pflow, ct)
+        mapping = MappingWorkflow().generate(pflow, ct)
         ALIGN_XML = "training/{condition}.all_movies.alignmentset.xml"
         REF_FASTA = ALIGN_XML + ".ref.fa"
         REF_FAIDX = REF_FASTA + ".fai"

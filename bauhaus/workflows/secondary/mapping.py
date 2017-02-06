@@ -1,4 +1,4 @@
-__all__ = [ "BasicMappingWorkflow", "ChunkedMappingWorkflow"]
+__all__ = [ "MappingWorkflow" ]
 
 import os.path as op
 
@@ -95,13 +95,14 @@ def genChunkedMapping(pflow, subreadSets, reference, splitFactor=8, doMerge=Fals
 # These really ought to be codified using types.  Damn you Python.
 # TODO: do we consider these "tertiary"?
 
-class BasicMappingWorkflow(Workflow):
+class MappingWorkflow(Workflow):
     """
-    Basic mapping---not chunked, just dead simple.
+    Reference mapping of subreads.  If inputs are already mapped, will
+    just add a pointer to the pre-existing mappings.
     """
     @staticmethod
     def name():
-        return "BasicMapping"
+        return "Mapping"
 
     @staticmethod
     def conditionTableType():
@@ -114,36 +115,14 @@ class BasicMappingWorkflow(Workflow):
                 reference = ct.reference(condition)
                 if ct.inputType == InputType.SubreadSet:
                     subreadSets = genSubreads(pflow, ct.inputs(condition))
-                    outputDict[condition] = genMapping(pflow, subreadSets, reference)
+                    if pflow.chunks > 0:
+                        outputDict[condition] = genChunkedMapping(pflow, subreadSets, reference, splitFactor=pflow.chunks)
+                    else:
+                        outputDict[condition] = genMapping(pflow, subreadSets, reference)
                 elif ct.inputType == InputType.AlignmentSet:
-                    outputDict[condition] = genAlignmentSetMergeForCondition(pflow, ct.inputs(condition))
-                else:
-                    raise NotImplementedError, "Support not yet implemented for this input type"
-        return outputDict
+                    outputDict[condition] = genDatasetMergeForCondition(
+                        pflow, ct.inputs(condition), "mapping", "alignmentset")
 
-
-class ChunkedMappingWorkflow(Workflow):
-    """
-    Chunked mapping
-    """
-    @staticmethod
-    def name():
-        return "ChunkedMapping"
-
-    @staticmethod
-    def conditionTableType():
-        return ResequencingConditionTable
-
-    def generate(self, pflow, ct):
-        outputDict = {}
-        for condition in ct.conditions:
-            with pflow.context("condition", condition):
-                reference = ct.reference(condition)
-                if ct.inputType == InputType.SubreadSet:
-                    subreadSets = genSubreads(pflow, ct.inputs(condition))
-                    outputDict[condition] = genChunkedMapping(pflow, subreadSets, reference, splitFactor=8)
-                elif ct.inputType == InputType.AlignmentSet:
-                    outputDict[condition] = genDatasetMergeForCondition(pflow, ct.inputs(condition), "mapping", "alignmentset")
                 else:
                     raise NotImplementedError, "Support not yet implemented for this input type"
         return outputDict

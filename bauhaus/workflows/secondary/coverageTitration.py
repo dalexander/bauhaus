@@ -6,7 +6,7 @@ from bauhaus.utils import listConcat
 from bauhaus.experiment import CoverageTitrationConditionTable
 
 from .variantCalling import genVariantCalling, genCoverageSummary
-from .mapping import ChunkedMappingWorkflow
+from .mapping import MappingWorkflow
 
 from collections import defaultdict
 
@@ -26,7 +26,7 @@ class CoverageTitrationWorkflow(Workflow):
         return CoverageTitrationConditionTable
 
     def generate(self, pflow, ct):
-        mapping = ChunkedMappingWorkflow().generate(pflow, ct)
+        mapping = MappingWorkflow().generate(pflow, ct)
         outputDict = defaultdict(list)
         for (condition, alignmentSets) in mapping.iteritems():
             alignmentSet = alignmentSets[0]

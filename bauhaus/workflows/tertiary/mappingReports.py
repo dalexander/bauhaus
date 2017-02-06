@@ -4,7 +4,7 @@ import os.path as op
 
 from bauhaus import Workflow
 from bauhaus.experiment import (InputType, ResequencingConditionTable)
-from bauhaus.workflows.secondary import ChunkedMappingWorkflow
+from bauhaus.workflows.secondary import MappingWorkflow
 from bauhaus.utils import mkdirp, listConcat
 
 PLOTTING_GROUPS = [ "PbiPlots", "PbiSampledPlots" ]
@@ -45,7 +45,7 @@ def generateResequencingPlotToolContracts(pflow):
 
 class MappingReportsWorkflow(Workflow):
     """
-    Chunked mapping followed by plots/reports
+    Mapping followed by plots/reports
     """
     @staticmethod
     def name():
@@ -56,7 +56,7 @@ class MappingReportsWorkflow(Workflow):
         return ResequencingConditionTable
 
     def generate(self, pflow, ct):
-        mapping = ChunkedMappingWorkflow().generate(pflow, ct)
+        mapping = MappingWorkflow().generate(pflow, ct)
         alignmentSets = { c : op.abspath(mapping[c][0]) for c in mapping }
         flatMappingOuts = listConcat(mapping.values())
         generateConditionsJSON(pflow, ct, alignmentSets)

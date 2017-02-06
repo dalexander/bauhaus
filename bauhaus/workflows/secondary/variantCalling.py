@@ -3,7 +3,7 @@ __all__ = [ "VariantCallingWorkflow" ]
 from bauhaus import Workflow
 from bauhaus.experiment import ResequencingConditionTable
 
-from .mapping import ChunkedMappingWorkflow
+from .mapping import MappingWorkflow
 
 
 # -- Basic variant calling...
@@ -85,7 +85,7 @@ class VariantCallingWorkflow(Workflow):
         return ResequencingConditionTable
 
     def generate(self, pflow, ct):
-        mapping = ChunkedMappingWorkflow().generate(pflow, ct)
+        mapping = MappingWorkflow().generate(pflow, ct)
         outputDict = {}
         for (condition, alignmentSets) in mapping.iteritems():
             alignmentSet = alignmentSets[0]

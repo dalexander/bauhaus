@@ -1,5 +1,4 @@
-__all__ = [ "BasicCCSWorkflow",
-            "ChunkedCCSWorkflow",
+__all__ = [ "CCSWorkflow",
             "CCSMappingWorkflow",
             "CCSMappingReportsWorkflow" ]
 
@@ -71,21 +70,23 @@ def genChunkedCCS(pflow, subreadSets, modelPath, modelSpec, splitFactor=8, doMer
     else:
         return ccsSets
 
-
 def genCCSAndMapping(pflow, subreadSets, modelPath, modelSpec, reference):
-    ccsSets = genChunkedCCS(pflow, subreadSets, modelPath, modelSpec, doMerge=False)
+    if pflow.chunks > 0:
+        ccsSets = genChunkedCCS(pflow, subreadSets, modelPath, modelSpec, doMerge=False)
+    else:
+        ccsSets = genCCS(pflow, subreadSets, modelPath, modelSpec, splitFactor=pflow.chunks)
     alignmentSets = genMappingCCS(pflow, ccsSets, reference)
     return alignmentSets
 
 
 # -- CCS
-class BasicCCSWorkflow(Workflow):
+class CCSWorkflow(Workflow):
     """
-    Basic CCS---not chunked, just dead simple.
+    Run CCS
     """
     @staticmethod
     def name():
-        return "BasicCCS"
+        return "CCS"
 
     @staticmethod
     def conditionTableType():
@@ -99,31 +100,10 @@ class BasicCCSWorkflow(Workflow):
                 subreadSets = genSubreads(pflow, ct.inputs(condition))
                 modelPath = ct.modelPath(condition)
                 modelSpec = ct.modelSpec(condition)
-                outputDict[condition] = genCCS(pflow, subreadSets, modelPath, modelSpec)
-        return outputDict
-
-
-class ChunkedCCSWorkflow(Workflow):
-    """
-    Chunked CCS---split up into multiple jobs
-    """
-    @staticmethod
-    def name():
-        return "ChunkedCCS"
-
-    @staticmethod
-    def conditionTableType():
-        return ConditionTable
-
-    def generate(self, pflow, ct):
-        outputDict = {}
-        for condition in ct.conditions:
-            with pflow.context("condition", condition):
-                assert ct.inputType == InputType.SubreadSet # TODO: move to validation.
-                subreadSets = genSubreads(pflow, ct.inputs(condition))
-                modelPath = ct.modelPath(condition)
-                modelSpec = ct.modelSpec(condition)
-                outputDict[condition] = genChunkedCCS(pflow, subreadSets, modelPath, modelSpec)
+                if pflow.chunks == 0:
+                    outputDict[condition] = genCCS(pflow, subreadSets, modelPath, modelSpec)
+                else:
+                    outputDict[condition] = genChunkedCCS(pflow, subreadSets, modelPath, modelSpec, splitFactor=pflow.chunks)
         return outputDict
 
 
