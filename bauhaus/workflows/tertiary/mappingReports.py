@@ -67,7 +67,7 @@ class MappingReportsWorkflow(Workflow):
             outputNonce = generateToolContract(pflow, toolName)
             pbiPlotsRule = pflow.genRuleOnce(
                 toolName,
-                PLOTTING_TOOLS_ROOT + "{toolName} run-rtc reports/{toolName}/rtc-{toolName}.json".format(toolName=toolName))
+                PLOTTING_TOOLS_ROOT + "/r/{toolName}.R run-rtc reports/{toolName}/rtc-{toolName}.json".format(toolName=toolName))
             bs = pflow.genBuildStatement(
                 [ outputNonce ],
                 toolName,
