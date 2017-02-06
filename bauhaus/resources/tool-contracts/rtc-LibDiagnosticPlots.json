@@ -7,14 +7,14 @@
     "resolved_tool_contract": {
         "_comment": "Created by pbcommand v0.4.11",
         "input_files": [
-            {{ conditions_json }}
+            {{ conditions_json|tojson }}
         ],
         "is_distributed": true,
         "log_level": "INFO",
         "nproc": 1,
         "options": {},
         "output_files": [
-            {{ output_nonce }}
+            {{ output_nonce|tojson }}
         ],
         "resources": [],
         "task_type": "pbsmrtpipe.task_types.standard",
