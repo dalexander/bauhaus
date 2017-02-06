@@ -1,6 +1,6 @@
 __all__ = [ "genSubreads", "genSubreadSetSplit" ]
 
-import os.path as op
+import os.path as op, re
 
 from bauhaus import Workflow
 from .datasetOps import *
@@ -16,6 +16,8 @@ def genSubreads(pflow, remoteSubreadSets):
     localSubreadSets = []
     for rss in remoteSubreadSets:
         bn = op.basename(rss)
+        if bn.endswith(".subreads.bam"):
+            bn = re.sub(".subreads.bam$", ".subreadset.xml", bn)
         localName = "{condition}/subreads/%s" % bn
         subreadCopyStmt = pflow.genBuildStatement(
             ["{condition}/subreads/%s" % bn],
