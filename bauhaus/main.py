@@ -65,7 +65,7 @@ def parseArgs():
         help="Disable the qsub submission to the grid")
     parser.add_argument(
         "--chunks", type=int, default=8,
-        help="The number of chunks that should be used for scatter-gather compatible workflow (0 means disable chunking)")
+        help="The number of chunks that should be used for scatter-gather compatible workflows (0 means disable chunking)")
 
     subparsers = parser.add_subparsers(help="sub-command help", dest="command")
     subparsers.add_parser("help", help="Help for the given work flow")
