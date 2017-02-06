@@ -1,7 +1,7 @@
 {
     "driver": {
         "env": {},
-        "exe": "ReadPlots.R run-rtc "
+        "exe": "LibDiagnosticPlots.R run-rtc ",
         "serialization": "json"
     },
     "resolved_tool_contract": {

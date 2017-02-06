@@ -1,7 +1,7 @@
 {
     "driver": {
         "env": {},
-        "exe": "PbiPlots.R run-rtc "
+        "exe": "PbiPlots.R run-rtc ",
         "serialization": "json"
     },
     "resolved_tool_contract": {

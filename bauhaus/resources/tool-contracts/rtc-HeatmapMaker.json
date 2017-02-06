@@ -1,7 +1,7 @@
 {
     "driver": {
         "env": {},
-        "exe": "heatmaps.R run-rtc "
+        "exe": "heatmaps.R run-rtc ",
         "serialization": "json"
     },
     "resolved_tool_contract": {
