@@ -5,7 +5,7 @@ module purge
 module use /pbi/dept/primary/modulefiles
 module load smrtanalysis/mainline
 module load gfftools/dalexander
-module load R/3.2.3-bauhaus
+module load R/3.2.3-internal
 module load ninja
 
 THISDIR=$(cd "$(dirname "$0")" && pwd)
