@@ -35,7 +35,9 @@ setup(
     entry_points = {
         "console_scripts" : [ "bauhaus = bauhaus.main:main" ]
     },
-    package_data={ "bauhaus.scripts" : [ "*.sh",
-                                         "R/*.R" ] },
+    package_data={ "bauhaus.resources" : [ "run.sh",
+                                           "conditions.json",
+                                           "tool-contracts/*.json",
+                                           "scripts/R/*.R" ] },
     install_requires=_get_local_requirements(REQUIREMENTS_TXT)
 )
