@@ -1,15 +1,13 @@
+from __future__ import absolute_import
+from __future__ import print_function
 from setuptools import setup, Extension, find_packages
 import os.path
 import sys
 
 REQUIREMENTS_TXT = "requirements.txt"
 
-if ("install" in sys.argv) and sys.version_info < (2, 7, 0):
-    print "bauhaus requires Python 2.7"
-    sys.exit(-1)
-
 globals = {}
-execfile("bauhaus/__version__.py", globals)
+exec(compile(open("bauhaus/__version__.py").read(), "bauhaus/__version__.py", 'exec'), globals)
 __VERSION__ = globals["__VERSION__"]
 
 def _get_local_file(file_name):
