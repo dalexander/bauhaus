@@ -1,7 +1,7 @@
 library(ggplot2)
 library(plyr)
 library(stringr)
-library(pbutils)
+library(pbbamr)
 library(gtools) # for "permutations"
 
 ignore <- function(x) {}
