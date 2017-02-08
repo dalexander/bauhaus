@@ -1,3 +1,5 @@
+from builtins import str
+from builtins import object
 __all__ = [ "InputType",
             "ConditionTable",
             "ResequencingConditionTable",
@@ -139,7 +141,7 @@ class ConditionTable(object):
                 try:
                     inputs.append(self._resolveInput(resolver, row))
                 except DataNotFound as e:
-                    raise InputResolutionError, e.message
+                    raise InputResolutionError(e.message)
             self._inputsByCondition[condition] = inputs
 
     @property
@@ -187,7 +189,7 @@ class ConditionTable(object):
             return InputType.AlignmentSet
         if {"TraceH5File"}.issubset(cols) :
             return InputType.TraceH5File
-        raise NotImplementedError, "Input type not recognized/supported"
+        raise NotImplementedError("Input type not recognized/supported")
 
     def inputs(self, condition):
         return self._inputsByCondition[condition]
@@ -236,7 +238,7 @@ class ResequencingConditionTable(ConditionTable):
             try:
                 self._referenceByCondition[condition] = resolver.resolveReference(genome)
             except DataNotFound as e:
-                raise InputResolutionError, e.message
+                raise InputResolutionError(e.message)
 
 
     @property
@@ -281,7 +283,7 @@ class CoverageTitrationConditionTable(ResequencingConditionTable):
             try:
                 self._referenceMaskByCondition[condition] = resolver.resolveReferenceMask(genome)
             except DataNotFound as e:
-                raise InputResolutionError, e.message
+                raise InputResolutionError(e.message)
 
 
 class UnrolledMappingConditionTable(ResequencingConditionTable):
@@ -297,4 +299,4 @@ class UnrolledMappingConditionTable(ResequencingConditionTable):
             if "unrolled" in genome or "circular" in genome:
                 continue
             else:
-                raise TableValidationError, "Unrolled mapping requires an unrolled reference"
+                raise TableValidationError("Unrolled mapping requires an unrolled reference")

@@ -148,7 +148,7 @@ class CCSMappingReportsWorkflow(Workflow):
     def generate(self, pflow, ct):
         pflow.bundleResource("scripts/R/ccsMappingPlots.R")
         ccsMappingOutputs = CCSMappingWorkflow().generate(pflow, ct)
-        flatOutputs = listConcat(ccsMappingOutputs.values())
+        flatOutputs = listConcat(list(ccsMappingOutputs.values()))
 
         ccsSummaryRule = pflow.genRuleOnce(
             "ccsMappingSummaryAnalysis",

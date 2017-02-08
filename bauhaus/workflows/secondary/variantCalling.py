@@ -87,7 +87,7 @@ class VariantCallingWorkflow(Workflow):
     def generate(self, pflow, ct):
         mapping = MappingWorkflow().generate(pflow, ct)
         outputDict = {}
-        for (condition, alignmentSets) in mapping.iteritems():
+        for (condition, alignmentSets) in mapping.items():
             alignmentSet = alignmentSets[0]
             modelPath = ct.modelPath(condition)
             modelSpec = ct.modelSpec(condition)

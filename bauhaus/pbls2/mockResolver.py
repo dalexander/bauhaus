@@ -1,3 +1,4 @@
+from builtins import object
 __all__ = [ "MockResolver" ]
 
 import os.path as op
@@ -56,18 +57,18 @@ class MockResolver(object):
 
     def ensureSubreadSet(self, subreadSet):
         if not subreadSet.endswith(".subreadset.xml") or subreadset.endswith(".subreads.bam"):
-            raise InvalidDataset, "%s not a subreadset"
+            raise InvalidDataset("%s not a subreadset")
         else:
             return subreadSet
 
     def ensureAlignmentSet(self, alignmentSet):
         if not alignmentSet.endswith(".alignmentset.xml"):
-            raise InvalidDataset, "%s not an alignmentset"
+            raise InvalidDataset("%s not an alignmentset")
         else:
             return alignmentSet
 
     def ensureTraceH5File(self, traceH5File):
         if not traceH5File.endswith(".trc.h5"):
-            raise InvalidDataset, "%s not an trc.h5 file" % traceH5File
+            raise InvalidDataset("%s not an trc.h5 file" % traceH5File)
         else:
             return traceH5File

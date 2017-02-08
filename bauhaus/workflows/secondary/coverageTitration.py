@@ -28,7 +28,7 @@ class CoverageTitrationWorkflow(Workflow):
     def generate(self, pflow, ct):
         mapping = MappingWorkflow().generate(pflow, ct)
         outputDict = defaultdict(list)
-        for (condition, alignmentSets) in mapping.iteritems():
+        for (condition, alignmentSets) in mapping.items():
             alignmentSet = alignmentSets[0]
             modelPath = ct.modelPath(condition)
             modelSpec = ct.modelSpec(condition)
@@ -64,7 +64,7 @@ class CoverageTitrationReportsWorkflow(Workflow):
     def generate(self, pflow, ct):
         pflow.bundleResource("scripts/R/coverageTitrationPlots.R")
         ctOuts = CoverageTitrationWorkflow().generate(pflow, ct)
-        flatCtOuts = listConcat(ctOuts.values())
+        flatCtOuts = listConcat(list(ctOuts.values()))
         ctSummaryRule = pflow.genRuleOnce(
             "coverageTitrationSummaryAnalysis",
             "Rscript --vanilla scripts/R/coverageTitrationPlots.R .")

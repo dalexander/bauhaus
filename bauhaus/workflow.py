@@ -1,4 +1,5 @@
 
+from builtins import object
 class Workflow(object):
     """
     Abstract base class for workflows.

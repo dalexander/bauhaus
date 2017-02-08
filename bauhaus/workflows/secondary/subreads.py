@@ -1,3 +1,4 @@
+from builtins import range
 __all__ = [ "genSubreads", "genSubreadSetSplit" ]
 
 import os.path as op, re
@@ -35,7 +36,7 @@ def genSubreadSetSplit(pflow, subreadSet, splitFactor):
             "$grid dataset split --zmws --targetSize 1 --chunks %d --outdir $outdir $in" % (splitFactor,))
     movie = movieName(subreadSet)
     splitOutputs =  [ "{condition}/subreads_chunks/%s.chunk%d.subreadset.xml" % (movie, i)
-                      for i in xrange(splitFactor) ]
+                      for i in range(splitFactor) ]
     buildStmt = pflow.genBuildStatement(splitOutputs,
                                         "splitByZmw",
                                         [subreadSet],

@@ -1,10 +1,13 @@
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 __all__ = [ "Resolver" ]
 
 
 import requests, json, os.path as op, re
 from glob import glob
 try:
-    from urlparse import urlparse
+    from urllib.parse import urlparse
 except: # Py3K
     from urllib.parse import urlparse
 
@@ -153,24 +156,24 @@ class Resolver(object):
 
     def ensureSubreadSet(self, subreadSet):
         if not (subreadSet.endswith(".subreadset.xml") or subreadSet.endswith(".subreads.bam")):
-            raise InvalidDataset, "%s not a subreadset" % subreadSet
+            raise InvalidDataset("%s not a subreadset" % subreadSet)
         elif not op.isfile(subreadSet):
-            raise DataNotFound, "SubreadSet %s not found" % subreadSet
+            raise DataNotFound("SubreadSet %s not found" % subreadSet)
         else:
             return subreadSet
 
     def ensureAlignmentSet(self, alignmentSet):
         if not alignmentSet.endswith(".alignmentset.xml"):
-            raise InvalidDataset, "%s not an alignmentset" % alignmentSet
+            raise InvalidDataset("%s not an alignmentset" % alignmentSet)
         elif not op.isfile(alignmentSet):
-            raise DataNotFound, "AlignmentSet %s not found" % alignmentSet
+            raise DataNotFound("AlignmentSet %s not found" % alignmentSet)
         else:
             return alignmentSet
 
     def ensureTraceH5File(self, traceH5File):
         if not traceH5File.endswith(".trc.h5"):
-            raise InvalidDataset, "%s not an trc.h5 file" % traceH5File
+            raise InvalidDataset("%s not an trc.h5 file" % traceH5File)
         elif not op.isfile(traceH5File):
-            raise DataNotFound, "Trc.h5 file %s not found" % traceH5File
+            raise DataNotFound("Trc.h5 file %s not found" % traceH5File)
         else:
             return traceH5File
