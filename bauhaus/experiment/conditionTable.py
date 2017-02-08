@@ -257,7 +257,7 @@ class CoverageTitrationConditionTable(ResequencingConditionTable):
 
     def _validateTable(self):
         super(CoverageTitrationConditionTable, self)._validateTable()
-        #self._validateAtLeastOnePVariable()
+        self._validateAtLeastOnePVariable()
 
     def referenceMask(self, condition):
         return self._referenceMaskByCondition[condition]
