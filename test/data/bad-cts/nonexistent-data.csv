@@ -1,0 +1,5 @@
+Condition,RunCode,ReportsFolder,Genome
+Lambda,3150128-0001,,lambdaNEB
+Lambda,3150128-0002,WillyWonka,lambdaNEB
+Ecoli,3150122-0001,,ecoliK12_pbi_March2013
+Ecoli,3150122-0002,,ecoliK12_pbi_March2013

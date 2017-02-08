@@ -10,6 +10,8 @@ import csv, os.path as op, sys
 import eztable
 import io,codecs
 
+from bauhaus.pbls2 import DataNotFound, InvalidDataset
+
 # TODO: we are using the non-public method ._get_columns on
 # eztable.Table objects.  That method should really be public--maybe
 # ask the maintainer?
@@ -84,7 +86,9 @@ class ConditionTable(object):
             for variable in self.variables:
                 if len(set(condition._get_column(variable))) != 1:
                     raise TableValidationError(
-                        "Conditions must be homogeneous---no variation in variables within a condition")
+                        "Conditions must be homogeneous--no variation allowed in variables/settings within a condition.  " +
+                        "(Offending condition: \"%s\"; offending column: \"%s\")" % (c, variable)
+                    )
 
     def _validateSingleInputEncoding(self):
         cols = self.tbl.column_names
@@ -132,7 +136,10 @@ class ConditionTable(object):
             subDf = self.condition(condition)
             inputs = []
             for row in subDf:
-                inputs.append(self._resolveInput(resolver, row))
+                try:
+                    inputs.append(self._resolveInput(resolver, row))
+                except DataNotFound as e:
+                    raise InputResolutionError, e.message
             self._inputsByCondition[condition] = inputs
 
     @property
@@ -226,7 +233,11 @@ class ResequencingConditionTable(ConditionTable):
         self._referenceByCondition = {}
         for condition in self.conditions:
             genome = self.genome(condition)
-            self._referenceByCondition[condition] = resolver.resolveReference(genome)
+            try:
+                self._referenceByCondition[condition] = resolver.resolveReference(genome)
+            except DataNotFound as e:
+                raise InputResolutionError, e.message
+
 
     @property
     def variables(self):
@@ -253,7 +264,7 @@ class CoverageTitrationConditionTable(ResequencingConditionTable):
     def _validateAtLeastOnePVariable(self):
         if len(_pVariables(self.tbl)) < 1:
             raise TableValidationError(
-                'There must be at least one covariate ("p_" variable) in the condition table')
+                'For CoverageTitration, there must be at least one covariate ("p_" variable) in the condition table')
 
     def _validateTable(self):
         super(CoverageTitrationConditionTable, self)._validateTable()
@@ -267,7 +278,10 @@ class CoverageTitrationConditionTable(ResequencingConditionTable):
         self._referenceMaskByCondition = {}
         for condition in self.conditions:
             genome = self.genome(condition)
-            self._referenceMaskByCondition[condition] = resolver.resolveReferenceMask(genome)
+            try:
+                self._referenceMaskByCondition[condition] = resolver.resolveReferenceMask(genome)
+            except DataNotFound as e:
+                raise InputResolutionError, e.message
 
 
 class UnrolledMappingConditionTable(ResequencingConditionTable):

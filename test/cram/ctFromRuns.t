@@ -3,7 +3,7 @@ Run a bigger workflow--coverage titration with reports.
 
   $ BH_ROOT=$TESTDIR/../../
 
-  $ bauhaus -o ctFromRuns -m -t ${BH_ROOT}test/data/lambdaAndEcoli.csv -w CoverageTitrationReports generate
+  $ bauhaus -o ctFromRuns -m -t ${BH_ROOT}test/data/lambdaAndEcoli-with-p-var.csv -w CoverageTitrationReports generate
   Validation and input resolution succeeded.
   Runnable workflow written to directory "ctFromRuns"
 
@@ -66,586 +66,940 @@ as a small diff.
   
   
   # Build targets
-  build Ecoli/subreads/m54011_160305_235923.subreadset.xml: $
-      copySubreadsDataset $
-      /pbi/collections/315/3150122/r54011_20160305_235615/1_A01/m54011_160305_235923.subreadset.xml
-  
-  build Ecoli/subreads/m54011_160306_050740.subreadset.xml: $
+  build EcoliHigh/subreads/m54011_160306_050740.subreadset.xml: $
       copySubreadsDataset $
       /pbi/collections/315/3150122/r54011_20160305_235615/2_B01/m54011_160306_050740.subreadset.xml
   
-  build Ecoli/subreads_chunks/m54011_160305_235923.chunk0.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160305_235923.chunk1.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160305_235923.chunk2.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160305_235923.chunk3.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160305_235923.chunk4.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160305_235923.chunk5.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160305_235923.chunk6.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160305_235923.chunk7.subreadset.xml: $
-      splitByZmw Ecoli/subreads/m54011_160305_235923.subreadset.xml
-    outdir = Ecoli/subreads_chunks
+  build EcoliHigh/subreads_chunks/m54011_160306_050740.chunk0.subreadset.xml $
+      EcoliHigh/subreads_chunks/m54011_160306_050740.chunk1.subreadset.xml $
+      EcoliHigh/subreads_chunks/m54011_160306_050740.chunk2.subreadset.xml $
+      EcoliHigh/subreads_chunks/m54011_160306_050740.chunk3.subreadset.xml $
+      EcoliHigh/subreads_chunks/m54011_160306_050740.chunk4.subreadset.xml $
+      EcoliHigh/subreads_chunks/m54011_160306_050740.chunk5.subreadset.xml $
+      EcoliHigh/subreads_chunks/m54011_160306_050740.chunk6.subreadset.xml $
+      EcoliHigh/subreads_chunks/m54011_160306_050740.chunk7.subreadset.xml: $
+      splitByZmw EcoliHigh/subreads/m54011_160306_050740.subreadset.xml
+    outdir = EcoliHigh/subreads_chunks
   
-  build Ecoli/mapping_chunks/m54011_160305_235923.chunk0.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160305_235923.chunk0.subreadset.xml
+  build $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk0.alignmentset.xml: $
+      map EcoliHigh/subreads_chunks/m54011_160306_050740.chunk0.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
   
-  build Ecoli/mapping_chunks/m54011_160305_235923.chunk1.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160305_235923.chunk1.subreadset.xml
+  build $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk1.alignmentset.xml: $
+      map EcoliHigh/subreads_chunks/m54011_160306_050740.chunk1.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
   
-  build Ecoli/mapping_chunks/m54011_160305_235923.chunk2.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160305_235923.chunk2.subreadset.xml
+  build $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk2.alignmentset.xml: $
+      map EcoliHigh/subreads_chunks/m54011_160306_050740.chunk2.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
   
-  build Ecoli/mapping_chunks/m54011_160305_235923.chunk3.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160305_235923.chunk3.subreadset.xml
+  build $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk3.alignmentset.xml: $
+      map EcoliHigh/subreads_chunks/m54011_160306_050740.chunk3.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
   
-  build Ecoli/mapping_chunks/m54011_160305_235923.chunk4.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160305_235923.chunk4.subreadset.xml
+  build $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk4.alignmentset.xml: $
+      map EcoliHigh/subreads_chunks/m54011_160306_050740.chunk4.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
   
-  build Ecoli/mapping_chunks/m54011_160305_235923.chunk5.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160305_235923.chunk5.subreadset.xml
+  build $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk5.alignmentset.xml: $
+      map EcoliHigh/subreads_chunks/m54011_160306_050740.chunk5.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
   
-  build Ecoli/mapping_chunks/m54011_160305_235923.chunk6.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160305_235923.chunk6.subreadset.xml
+  build $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk6.alignmentset.xml: $
+      map EcoliHigh/subreads_chunks/m54011_160306_050740.chunk6.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
   
-  build Ecoli/mapping_chunks/m54011_160305_235923.chunk7.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160305_235923.chunk7.subreadset.xml
+  build $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk7.alignmentset.xml: $
+      map EcoliHigh/subreads_chunks/m54011_160306_050740.chunk7.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
   
-  build Ecoli/subreads_chunks/m54011_160306_050740.chunk0.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160306_050740.chunk1.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160306_050740.chunk2.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160306_050740.chunk3.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160306_050740.chunk4.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160306_050740.chunk5.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160306_050740.chunk6.subreadset.xml $
-      Ecoli/subreads_chunks/m54011_160306_050740.chunk7.subreadset.xml: $
-      splitByZmw Ecoli/subreads/m54011_160306_050740.subreadset.xml
-    outdir = Ecoli/subreads_chunks
+  build EcoliHigh/mapping/all_movies.alignmentset.xml: $
+      mergeDatasetsForCondition $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk0.alignmentset.xml $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk1.alignmentset.xml $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk2.alignmentset.xml $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk3.alignmentset.xml $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk4.alignmentset.xml $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk5.alignmentset.xml $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk6.alignmentset.xml $
+      EcoliHigh/mapping_chunks/m54011_160306_050740.chunk7.alignmentset.xml
   
-  build Ecoli/mapping_chunks/m54011_160306_050740.chunk0.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160306_050740.chunk0.subreadset.xml
-    reference = $
-        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-  
-  build Ecoli/mapping_chunks/m54011_160306_050740.chunk1.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160306_050740.chunk1.subreadset.xml
-    reference = $
-        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-  
-  build Ecoli/mapping_chunks/m54011_160306_050740.chunk2.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160306_050740.chunk2.subreadset.xml
-    reference = $
-        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-  
-  build Ecoli/mapping_chunks/m54011_160306_050740.chunk3.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160306_050740.chunk3.subreadset.xml
-    reference = $
-        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-  
-  build Ecoli/mapping_chunks/m54011_160306_050740.chunk4.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160306_050740.chunk4.subreadset.xml
-    reference = $
-        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-  
-  build Ecoli/mapping_chunks/m54011_160306_050740.chunk5.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160306_050740.chunk5.subreadset.xml
-    reference = $
-        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-  
-  build Ecoli/mapping_chunks/m54011_160306_050740.chunk6.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160306_050740.chunk6.subreadset.xml
-    reference = $
-        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-  
-  build Ecoli/mapping_chunks/m54011_160306_050740.chunk7.alignmentset.xml: $
-      map Ecoli/subreads_chunks/m54011_160306_050740.chunk7.subreadset.xml
-    reference = $
-        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-  
-  build Ecoli/mapping/all_movies.alignmentset.xml: mergeDatasetsForCondition $
-      Ecoli/mapping_chunks/m54011_160305_235923.chunk0.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160305_235923.chunk1.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160305_235923.chunk2.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160305_235923.chunk3.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160305_235923.chunk4.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160305_235923.chunk5.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160305_235923.chunk6.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160305_235923.chunk7.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160306_050740.chunk0.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160306_050740.chunk1.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160306_050740.chunk2.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160306_050740.chunk3.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160306_050740.chunk4.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160306_050740.chunk5.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160306_050740.chunk6.alignmentset.xml $
-      Ecoli/mapping_chunks/m54011_160306_050740.chunk7.alignmentset.xml
-  
-  build Lambda/subreads/m54008_160308_002050.subreadset.xml: $
+  build EcoliLow/subreads/m54011_160305_235923.subreadset.xml: $
       copySubreadsDataset $
-      /pbi/collections/315/3150128/r54008_20160308_001811/1_A01/m54008_160308_002050.subreadset.xml
+      /pbi/collections/315/3150122/r54011_20160305_235615/1_A01/m54011_160305_235923.subreadset.xml
   
-  build Lambda/subreads/m54008_160308_053311.subreadset.xml: $
+  build EcoliLow/subreads_chunks/m54011_160305_235923.chunk0.subreadset.xml $
+      EcoliLow/subreads_chunks/m54011_160305_235923.chunk1.subreadset.xml $
+      EcoliLow/subreads_chunks/m54011_160305_235923.chunk2.subreadset.xml $
+      EcoliLow/subreads_chunks/m54011_160305_235923.chunk3.subreadset.xml $
+      EcoliLow/subreads_chunks/m54011_160305_235923.chunk4.subreadset.xml $
+      EcoliLow/subreads_chunks/m54011_160305_235923.chunk5.subreadset.xml $
+      EcoliLow/subreads_chunks/m54011_160305_235923.chunk6.subreadset.xml $
+      EcoliLow/subreads_chunks/m54011_160305_235923.chunk7.subreadset.xml: $
+      splitByZmw EcoliLow/subreads/m54011_160305_235923.subreadset.xml
+    outdir = EcoliLow/subreads_chunks
+  
+  build EcoliLow/mapping_chunks/m54011_160305_235923.chunk0.alignmentset.xml: $
+      map EcoliLow/subreads_chunks/m54011_160305_235923.chunk0.subreadset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+  
+  build EcoliLow/mapping_chunks/m54011_160305_235923.chunk1.alignmentset.xml: $
+      map EcoliLow/subreads_chunks/m54011_160305_235923.chunk1.subreadset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+  
+  build EcoliLow/mapping_chunks/m54011_160305_235923.chunk2.alignmentset.xml: $
+      map EcoliLow/subreads_chunks/m54011_160305_235923.chunk2.subreadset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+  
+  build EcoliLow/mapping_chunks/m54011_160305_235923.chunk3.alignmentset.xml: $
+      map EcoliLow/subreads_chunks/m54011_160305_235923.chunk3.subreadset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+  
+  build EcoliLow/mapping_chunks/m54011_160305_235923.chunk4.alignmentset.xml: $
+      map EcoliLow/subreads_chunks/m54011_160305_235923.chunk4.subreadset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+  
+  build EcoliLow/mapping_chunks/m54011_160305_235923.chunk5.alignmentset.xml: $
+      map EcoliLow/subreads_chunks/m54011_160305_235923.chunk5.subreadset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+  
+  build EcoliLow/mapping_chunks/m54011_160305_235923.chunk6.alignmentset.xml: $
+      map EcoliLow/subreads_chunks/m54011_160305_235923.chunk6.subreadset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+  
+  build EcoliLow/mapping_chunks/m54011_160305_235923.chunk7.alignmentset.xml: $
+      map EcoliLow/subreads_chunks/m54011_160305_235923.chunk7.subreadset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+  
+  build EcoliLow/mapping/all_movies.alignmentset.xml: $
+      mergeDatasetsForCondition $
+      EcoliLow/mapping_chunks/m54011_160305_235923.chunk0.alignmentset.xml $
+      EcoliLow/mapping_chunks/m54011_160305_235923.chunk1.alignmentset.xml $
+      EcoliLow/mapping_chunks/m54011_160305_235923.chunk2.alignmentset.xml $
+      EcoliLow/mapping_chunks/m54011_160305_235923.chunk3.alignmentset.xml $
+      EcoliLow/mapping_chunks/m54011_160305_235923.chunk4.alignmentset.xml $
+      EcoliLow/mapping_chunks/m54011_160305_235923.chunk5.alignmentset.xml $
+      EcoliLow/mapping_chunks/m54011_160305_235923.chunk6.alignmentset.xml $
+      EcoliLow/mapping_chunks/m54011_160305_235923.chunk7.alignmentset.xml
+  
+  build LambdaHigh/subreads/m54008_160308_053311.subreadset.xml: $
       copySubreadsDataset $
       /pbi/collections/315/3150128/r54008_20160308_001811/2_B01/m54008_160308_053311.subreadset.xml
   
-  build Lambda/subreads_chunks/m54008_160308_002050.chunk0.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_002050.chunk1.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_002050.chunk2.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_002050.chunk3.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_002050.chunk4.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_002050.chunk5.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_002050.chunk6.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_002050.chunk7.subreadset.xml: $
-      splitByZmw Lambda/subreads/m54008_160308_002050.subreadset.xml
-    outdir = Lambda/subreads_chunks
+  build LambdaHigh/subreads_chunks/m54008_160308_053311.chunk0.subreadset.xml $
+      LambdaHigh/subreads_chunks/m54008_160308_053311.chunk1.subreadset.xml $
+      LambdaHigh/subreads_chunks/m54008_160308_053311.chunk2.subreadset.xml $
+      LambdaHigh/subreads_chunks/m54008_160308_053311.chunk3.subreadset.xml $
+      LambdaHigh/subreads_chunks/m54008_160308_053311.chunk4.subreadset.xml $
+      LambdaHigh/subreads_chunks/m54008_160308_053311.chunk5.subreadset.xml $
+      LambdaHigh/subreads_chunks/m54008_160308_053311.chunk6.subreadset.xml $
+      LambdaHigh/subreads_chunks/m54008_160308_053311.chunk7.subreadset.xml: $
+      splitByZmw LambdaHigh/subreads/m54008_160308_053311.subreadset.xml
+    outdir = LambdaHigh/subreads_chunks
   
-  build Lambda/mapping_chunks/m54008_160308_002050.chunk0.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_002050.chunk0.subreadset.xml
+  build $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk0.alignmentset.xml: $
+      map LambdaHigh/subreads_chunks/m54008_160308_053311.chunk0.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_002050.chunk1.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_002050.chunk1.subreadset.xml
+  build $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk1.alignmentset.xml: $
+      map LambdaHigh/subreads_chunks/m54008_160308_053311.chunk1.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_002050.chunk2.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_002050.chunk2.subreadset.xml
+  build $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk2.alignmentset.xml: $
+      map LambdaHigh/subreads_chunks/m54008_160308_053311.chunk2.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_002050.chunk3.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_002050.chunk3.subreadset.xml
+  build $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk3.alignmentset.xml: $
+      map LambdaHigh/subreads_chunks/m54008_160308_053311.chunk3.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_002050.chunk4.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_002050.chunk4.subreadset.xml
+  build $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk4.alignmentset.xml: $
+      map LambdaHigh/subreads_chunks/m54008_160308_053311.chunk4.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_002050.chunk5.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_002050.chunk5.subreadset.xml
+  build $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk5.alignmentset.xml: $
+      map LambdaHigh/subreads_chunks/m54008_160308_053311.chunk5.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_002050.chunk6.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_002050.chunk6.subreadset.xml
+  build $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk6.alignmentset.xml: $
+      map LambdaHigh/subreads_chunks/m54008_160308_053311.chunk6.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_002050.chunk7.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_002050.chunk7.subreadset.xml
+  build $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk7.alignmentset.xml: $
+      map LambdaHigh/subreads_chunks/m54008_160308_053311.chunk7.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/subreads_chunks/m54008_160308_053311.chunk0.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_053311.chunk1.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_053311.chunk2.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_053311.chunk3.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_053311.chunk4.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_053311.chunk5.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_053311.chunk6.subreadset.xml $
-      Lambda/subreads_chunks/m54008_160308_053311.chunk7.subreadset.xml: $
-      splitByZmw Lambda/subreads/m54008_160308_053311.subreadset.xml
-    outdir = Lambda/subreads_chunks
+  build LambdaHigh/mapping/all_movies.alignmentset.xml: $
+      mergeDatasetsForCondition $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk0.alignmentset.xml $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk1.alignmentset.xml $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk2.alignmentset.xml $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk3.alignmentset.xml $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk4.alignmentset.xml $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk5.alignmentset.xml $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk6.alignmentset.xml $
+      LambdaHigh/mapping_chunks/m54008_160308_053311.chunk7.alignmentset.xml
   
-  build Lambda/mapping_chunks/m54008_160308_053311.chunk0.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_053311.chunk0.subreadset.xml
+  build LambdaLow/subreads/m54008_160308_002050.subreadset.xml: $
+      copySubreadsDataset $
+      /pbi/collections/315/3150128/r54008_20160308_001811/1_A01/m54008_160308_002050.subreadset.xml
+  
+  build LambdaLow/subreads_chunks/m54008_160308_002050.chunk0.subreadset.xml $
+      LambdaLow/subreads_chunks/m54008_160308_002050.chunk1.subreadset.xml $
+      LambdaLow/subreads_chunks/m54008_160308_002050.chunk2.subreadset.xml $
+      LambdaLow/subreads_chunks/m54008_160308_002050.chunk3.subreadset.xml $
+      LambdaLow/subreads_chunks/m54008_160308_002050.chunk4.subreadset.xml $
+      LambdaLow/subreads_chunks/m54008_160308_002050.chunk5.subreadset.xml $
+      LambdaLow/subreads_chunks/m54008_160308_002050.chunk6.subreadset.xml $
+      LambdaLow/subreads_chunks/m54008_160308_002050.chunk7.subreadset.xml: $
+      splitByZmw LambdaLow/subreads/m54008_160308_002050.subreadset.xml
+    outdir = LambdaLow/subreads_chunks
+  
+  build $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk0.alignmentset.xml: $
+      map LambdaLow/subreads_chunks/m54008_160308_002050.chunk0.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_053311.chunk1.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_053311.chunk1.subreadset.xml
+  build $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk1.alignmentset.xml: $
+      map LambdaLow/subreads_chunks/m54008_160308_002050.chunk1.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_053311.chunk2.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_053311.chunk2.subreadset.xml
+  build $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk2.alignmentset.xml: $
+      map LambdaLow/subreads_chunks/m54008_160308_002050.chunk2.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_053311.chunk3.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_053311.chunk3.subreadset.xml
+  build $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk3.alignmentset.xml: $
+      map LambdaLow/subreads_chunks/m54008_160308_002050.chunk3.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_053311.chunk4.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_053311.chunk4.subreadset.xml
+  build $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk4.alignmentset.xml: $
+      map LambdaLow/subreads_chunks/m54008_160308_002050.chunk4.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_053311.chunk5.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_053311.chunk5.subreadset.xml
+  build $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk5.alignmentset.xml: $
+      map LambdaLow/subreads_chunks/m54008_160308_002050.chunk5.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_053311.chunk6.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_053311.chunk6.subreadset.xml
+  build $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk6.alignmentset.xml: $
+      map LambdaLow/subreads_chunks/m54008_160308_002050.chunk6.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping_chunks/m54008_160308_053311.chunk7.alignmentset.xml: $
-      map Lambda/subreads_chunks/m54008_160308_053311.chunk7.subreadset.xml
+  build $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk7.alignmentset.xml: $
+      map LambdaLow/subreads_chunks/m54008_160308_002050.chunk7.subreadset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/mapping/all_movies.alignmentset.xml: mergeDatasetsForCondition $
-      Lambda/mapping_chunks/m54008_160308_002050.chunk0.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_002050.chunk1.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_002050.chunk2.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_002050.chunk3.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_002050.chunk4.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_002050.chunk5.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_002050.chunk6.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_002050.chunk7.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_053311.chunk0.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_053311.chunk1.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_053311.chunk2.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_053311.chunk3.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_053311.chunk4.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_053311.chunk5.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_053311.chunk6.alignmentset.xml $
-      Lambda/mapping_chunks/m54008_160308_053311.chunk7.alignmentset.xml
+  build LambdaLow/mapping/all_movies.alignmentset.xml: $
+      mergeDatasetsForCondition $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk0.alignmentset.xml $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk1.alignmentset.xml $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk2.alignmentset.xml $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk3.alignmentset.xml $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk4.alignmentset.xml $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk5.alignmentset.xml $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk6.alignmentset.xml $
+      LambdaLow/mapping_chunks/m54008_160308_002050.chunk7.alignmentset.xml
   
-  build Ecoli/variant_calling/alignments_summary.gff: summarize_coverage $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/alignments_summary.gff: summarize_coverage $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
   
-  build Ecoli/variant_calling/arrow/variants-5.gff: variantCalling $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/arrow/variants-5.gff: variantCalling $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-    consensusFasta = Ecoli/variant_calling/arrow/consensus-5.fasta
+    consensusFasta = EcoliLow/variant_calling/arrow/consensus-5.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Ecoli/variant_calling/arrow/consensus-5.fastq
+    consensusFastq = EcoliLow/variant_calling/arrow/consensus-5.fastq
     coverageLimitArgument = -X5
   
-  build Ecoli/variant_calling/arrow/masked-variants-5.gff: maskVariantsGff $
-      Ecoli/variant_calling/arrow/variants-5.gff
+  build EcoliLow/variant_calling/arrow/masked-variants-5.gff: maskVariantsGff $
+      EcoliLow/variant_calling/arrow/variants-5.gff
     referenceMask = $
         /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
-  build Ecoli/variant_calling/arrow/variants-10.gff: variantCalling $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/arrow/variants-10.gff: variantCalling $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-    consensusFasta = Ecoli/variant_calling/arrow/consensus-10.fasta
+    consensusFasta = EcoliLow/variant_calling/arrow/consensus-10.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Ecoli/variant_calling/arrow/consensus-10.fastq
+    consensusFastq = EcoliLow/variant_calling/arrow/consensus-10.fastq
     coverageLimitArgument = -X10
   
-  build Ecoli/variant_calling/arrow/masked-variants-10.gff: maskVariantsGff $
-      Ecoli/variant_calling/arrow/variants-10.gff
+  build EcoliLow/variant_calling/arrow/masked-variants-10.gff: $
+      maskVariantsGff EcoliLow/variant_calling/arrow/variants-10.gff
     referenceMask = $
         /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
-  build Ecoli/variant_calling/arrow/variants-15.gff: variantCalling $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/arrow/variants-15.gff: variantCalling $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-    consensusFasta = Ecoli/variant_calling/arrow/consensus-15.fasta
+    consensusFasta = EcoliLow/variant_calling/arrow/consensus-15.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Ecoli/variant_calling/arrow/consensus-15.fastq
+    consensusFastq = EcoliLow/variant_calling/arrow/consensus-15.fastq
     coverageLimitArgument = -X15
   
-  build Ecoli/variant_calling/arrow/masked-variants-15.gff: maskVariantsGff $
-      Ecoli/variant_calling/arrow/variants-15.gff
+  build EcoliLow/variant_calling/arrow/masked-variants-15.gff: $
+      maskVariantsGff EcoliLow/variant_calling/arrow/variants-15.gff
     referenceMask = $
         /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
-  build Ecoli/variant_calling/arrow/variants-20.gff: variantCalling $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/arrow/variants-20.gff: variantCalling $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-    consensusFasta = Ecoli/variant_calling/arrow/consensus-20.fasta
+    consensusFasta = EcoliLow/variant_calling/arrow/consensus-20.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Ecoli/variant_calling/arrow/consensus-20.fastq
+    consensusFastq = EcoliLow/variant_calling/arrow/consensus-20.fastq
     coverageLimitArgument = -X20
   
-  build Ecoli/variant_calling/arrow/masked-variants-20.gff: maskVariantsGff $
-      Ecoli/variant_calling/arrow/variants-20.gff
+  build EcoliLow/variant_calling/arrow/masked-variants-20.gff: $
+      maskVariantsGff EcoliLow/variant_calling/arrow/variants-20.gff
     referenceMask = $
         /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
-  build Ecoli/variant_calling/arrow/variants-30.gff: variantCalling $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/arrow/variants-30.gff: variantCalling $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-    consensusFasta = Ecoli/variant_calling/arrow/consensus-30.fasta
+    consensusFasta = EcoliLow/variant_calling/arrow/consensus-30.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Ecoli/variant_calling/arrow/consensus-30.fastq
+    consensusFastq = EcoliLow/variant_calling/arrow/consensus-30.fastq
     coverageLimitArgument = -X30
   
-  build Ecoli/variant_calling/arrow/masked-variants-30.gff: maskVariantsGff $
-      Ecoli/variant_calling/arrow/variants-30.gff
+  build EcoliLow/variant_calling/arrow/masked-variants-30.gff: $
+      maskVariantsGff EcoliLow/variant_calling/arrow/variants-30.gff
     referenceMask = $
         /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
-  build Ecoli/variant_calling/arrow/variants-40.gff: variantCalling $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/arrow/variants-40.gff: variantCalling $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-    consensusFasta = Ecoli/variant_calling/arrow/consensus-40.fasta
+    consensusFasta = EcoliLow/variant_calling/arrow/consensus-40.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Ecoli/variant_calling/arrow/consensus-40.fastq
+    consensusFastq = EcoliLow/variant_calling/arrow/consensus-40.fastq
     coverageLimitArgument = -X40
   
-  build Ecoli/variant_calling/arrow/masked-variants-40.gff: maskVariantsGff $
-      Ecoli/variant_calling/arrow/variants-40.gff
+  build EcoliLow/variant_calling/arrow/masked-variants-40.gff: $
+      maskVariantsGff EcoliLow/variant_calling/arrow/variants-40.gff
     referenceMask = $
         /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
-  build Ecoli/variant_calling/arrow/variants-50.gff: variantCalling $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/arrow/variants-50.gff: variantCalling $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-    consensusFasta = Ecoli/variant_calling/arrow/consensus-50.fasta
+    consensusFasta = EcoliLow/variant_calling/arrow/consensus-50.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Ecoli/variant_calling/arrow/consensus-50.fastq
+    consensusFastq = EcoliLow/variant_calling/arrow/consensus-50.fastq
     coverageLimitArgument = -X50
   
-  build Ecoli/variant_calling/arrow/masked-variants-50.gff: maskVariantsGff $
-      Ecoli/variant_calling/arrow/variants-50.gff
+  build EcoliLow/variant_calling/arrow/masked-variants-50.gff: $
+      maskVariantsGff EcoliLow/variant_calling/arrow/variants-50.gff
     referenceMask = $
         /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
-  build Ecoli/variant_calling/arrow/variants-60.gff: variantCalling $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/arrow/variants-60.gff: variantCalling $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-    consensusFasta = Ecoli/variant_calling/arrow/consensus-60.fasta
+    consensusFasta = EcoliLow/variant_calling/arrow/consensus-60.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Ecoli/variant_calling/arrow/consensus-60.fastq
+    consensusFastq = EcoliLow/variant_calling/arrow/consensus-60.fastq
     coverageLimitArgument = -X60
   
-  build Ecoli/variant_calling/arrow/masked-variants-60.gff: maskVariantsGff $
-      Ecoli/variant_calling/arrow/variants-60.gff
+  build EcoliLow/variant_calling/arrow/masked-variants-60.gff: $
+      maskVariantsGff EcoliLow/variant_calling/arrow/variants-60.gff
     referenceMask = $
         /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
-  build Ecoli/variant_calling/arrow/variants-80.gff: variantCalling $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/arrow/variants-80.gff: variantCalling $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-    consensusFasta = Ecoli/variant_calling/arrow/consensus-80.fasta
+    consensusFasta = EcoliLow/variant_calling/arrow/consensus-80.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Ecoli/variant_calling/arrow/consensus-80.fastq
+    consensusFastq = EcoliLow/variant_calling/arrow/consensus-80.fastq
     coverageLimitArgument = -X80
   
-  build Ecoli/variant_calling/arrow/masked-variants-80.gff: maskVariantsGff $
-      Ecoli/variant_calling/arrow/variants-80.gff
+  build EcoliLow/variant_calling/arrow/masked-variants-80.gff: $
+      maskVariantsGff EcoliLow/variant_calling/arrow/variants-80.gff
     referenceMask = $
         /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
-  build Ecoli/variant_calling/arrow/variants-100.gff: variantCalling $
-      Ecoli/mapping/all_movies.alignmentset.xml
+  build EcoliLow/variant_calling/arrow/variants-100.gff: variantCalling $
+      EcoliLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
-    consensusFasta = Ecoli/variant_calling/arrow/consensus-100.fasta
+    consensusFasta = EcoliLow/variant_calling/arrow/consensus-100.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Ecoli/variant_calling/arrow/consensus-100.fastq
+    consensusFastq = EcoliLow/variant_calling/arrow/consensus-100.fastq
     coverageLimitArgument = -X100
   
-  build Ecoli/variant_calling/arrow/masked-variants-100.gff: maskVariantsGff $
-      Ecoli/variant_calling/arrow/variants-100.gff
+  build EcoliLow/variant_calling/arrow/masked-variants-100.gff: $
+      maskVariantsGff EcoliLow/variant_calling/arrow/variants-100.gff
     referenceMask = $
         /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
-  build Lambda/variant_calling/alignments_summary.gff: summarize_coverage $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/alignments_summary.gff: summarize_coverage $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
   
-  build Lambda/variant_calling/arrow/variants-5.gff: variantCalling $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/arrow/variants-5.gff: variantCalling $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
-    consensusFasta = Lambda/variant_calling/arrow/consensus-5.fasta
+    consensusFasta = LambdaLow/variant_calling/arrow/consensus-5.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Lambda/variant_calling/arrow/consensus-5.fastq
+    consensusFastq = LambdaLow/variant_calling/arrow/consensus-5.fastq
     coverageLimitArgument = -X5
   
-  build Lambda/variant_calling/arrow/masked-variants-5.gff: maskVariantsGff $
-      Lambda/variant_calling/arrow/variants-5.gff
+  build LambdaLow/variant_calling/arrow/masked-variants-5.gff: $
+      maskVariantsGff LambdaLow/variant_calling/arrow/variants-5.gff
     referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
-  build Lambda/variant_calling/arrow/variants-10.gff: variantCalling $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/arrow/variants-10.gff: variantCalling $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
-    consensusFasta = Lambda/variant_calling/arrow/consensus-10.fasta
+    consensusFasta = LambdaLow/variant_calling/arrow/consensus-10.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Lambda/variant_calling/arrow/consensus-10.fastq
+    consensusFastq = LambdaLow/variant_calling/arrow/consensus-10.fastq
     coverageLimitArgument = -X10
   
-  build Lambda/variant_calling/arrow/masked-variants-10.gff: maskVariantsGff $
-      Lambda/variant_calling/arrow/variants-10.gff
+  build LambdaLow/variant_calling/arrow/masked-variants-10.gff: $
+      maskVariantsGff LambdaLow/variant_calling/arrow/variants-10.gff
     referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
-  build Lambda/variant_calling/arrow/variants-15.gff: variantCalling $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/arrow/variants-15.gff: variantCalling $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
-    consensusFasta = Lambda/variant_calling/arrow/consensus-15.fasta
+    consensusFasta = LambdaLow/variant_calling/arrow/consensus-15.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Lambda/variant_calling/arrow/consensus-15.fastq
+    consensusFastq = LambdaLow/variant_calling/arrow/consensus-15.fastq
     coverageLimitArgument = -X15
   
-  build Lambda/variant_calling/arrow/masked-variants-15.gff: maskVariantsGff $
-      Lambda/variant_calling/arrow/variants-15.gff
+  build LambdaLow/variant_calling/arrow/masked-variants-15.gff: $
+      maskVariantsGff LambdaLow/variant_calling/arrow/variants-15.gff
     referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
-  build Lambda/variant_calling/arrow/variants-20.gff: variantCalling $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/arrow/variants-20.gff: variantCalling $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
-    consensusFasta = Lambda/variant_calling/arrow/consensus-20.fasta
+    consensusFasta = LambdaLow/variant_calling/arrow/consensus-20.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Lambda/variant_calling/arrow/consensus-20.fastq
+    consensusFastq = LambdaLow/variant_calling/arrow/consensus-20.fastq
     coverageLimitArgument = -X20
   
-  build Lambda/variant_calling/arrow/masked-variants-20.gff: maskVariantsGff $
-      Lambda/variant_calling/arrow/variants-20.gff
+  build LambdaLow/variant_calling/arrow/masked-variants-20.gff: $
+      maskVariantsGff LambdaLow/variant_calling/arrow/variants-20.gff
     referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
-  build Lambda/variant_calling/arrow/variants-30.gff: variantCalling $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/arrow/variants-30.gff: variantCalling $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
-    consensusFasta = Lambda/variant_calling/arrow/consensus-30.fasta
+    consensusFasta = LambdaLow/variant_calling/arrow/consensus-30.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Lambda/variant_calling/arrow/consensus-30.fastq
+    consensusFastq = LambdaLow/variant_calling/arrow/consensus-30.fastq
     coverageLimitArgument = -X30
   
-  build Lambda/variant_calling/arrow/masked-variants-30.gff: maskVariantsGff $
-      Lambda/variant_calling/arrow/variants-30.gff
+  build LambdaLow/variant_calling/arrow/masked-variants-30.gff: $
+      maskVariantsGff LambdaLow/variant_calling/arrow/variants-30.gff
     referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
-  build Lambda/variant_calling/arrow/variants-40.gff: variantCalling $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/arrow/variants-40.gff: variantCalling $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
-    consensusFasta = Lambda/variant_calling/arrow/consensus-40.fasta
+    consensusFasta = LambdaLow/variant_calling/arrow/consensus-40.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Lambda/variant_calling/arrow/consensus-40.fastq
+    consensusFastq = LambdaLow/variant_calling/arrow/consensus-40.fastq
     coverageLimitArgument = -X40
   
-  build Lambda/variant_calling/arrow/masked-variants-40.gff: maskVariantsGff $
-      Lambda/variant_calling/arrow/variants-40.gff
+  build LambdaLow/variant_calling/arrow/masked-variants-40.gff: $
+      maskVariantsGff LambdaLow/variant_calling/arrow/variants-40.gff
     referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
-  build Lambda/variant_calling/arrow/variants-50.gff: variantCalling $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/arrow/variants-50.gff: variantCalling $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
-    consensusFasta = Lambda/variant_calling/arrow/consensus-50.fasta
+    consensusFasta = LambdaLow/variant_calling/arrow/consensus-50.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Lambda/variant_calling/arrow/consensus-50.fastq
+    consensusFastq = LambdaLow/variant_calling/arrow/consensus-50.fastq
     coverageLimitArgument = -X50
   
-  build Lambda/variant_calling/arrow/masked-variants-50.gff: maskVariantsGff $
-      Lambda/variant_calling/arrow/variants-50.gff
+  build LambdaLow/variant_calling/arrow/masked-variants-50.gff: $
+      maskVariantsGff LambdaLow/variant_calling/arrow/variants-50.gff
     referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
-  build Lambda/variant_calling/arrow/variants-60.gff: variantCalling $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/arrow/variants-60.gff: variantCalling $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
-    consensusFasta = Lambda/variant_calling/arrow/consensus-60.fasta
+    consensusFasta = LambdaLow/variant_calling/arrow/consensus-60.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Lambda/variant_calling/arrow/consensus-60.fastq
+    consensusFastq = LambdaLow/variant_calling/arrow/consensus-60.fastq
     coverageLimitArgument = -X60
   
-  build Lambda/variant_calling/arrow/masked-variants-60.gff: maskVariantsGff $
-      Lambda/variant_calling/arrow/variants-60.gff
+  build LambdaLow/variant_calling/arrow/masked-variants-60.gff: $
+      maskVariantsGff LambdaLow/variant_calling/arrow/variants-60.gff
     referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
-  build Lambda/variant_calling/arrow/variants-80.gff: variantCalling $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/arrow/variants-80.gff: variantCalling $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
-    consensusFasta = Lambda/variant_calling/arrow/consensus-80.fasta
+    consensusFasta = LambdaLow/variant_calling/arrow/consensus-80.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Lambda/variant_calling/arrow/consensus-80.fastq
+    consensusFastq = LambdaLow/variant_calling/arrow/consensus-80.fastq
     coverageLimitArgument = -X80
   
-  build Lambda/variant_calling/arrow/masked-variants-80.gff: maskVariantsGff $
-      Lambda/variant_calling/arrow/variants-80.gff
+  build LambdaLow/variant_calling/arrow/masked-variants-80.gff: $
+      maskVariantsGff LambdaLow/variant_calling/arrow/variants-80.gff
     referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
   
-  build Lambda/variant_calling/arrow/variants-100.gff: variantCalling $
-      Lambda/mapping/all_movies.alignmentset.xml
+  build LambdaLow/variant_calling/arrow/variants-100.gff: variantCalling $
+      LambdaLow/mapping/all_movies.alignmentset.xml
     reference = $
         /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
-    consensusFasta = Lambda/variant_calling/arrow/consensus-100.fasta
+    consensusFasta = LambdaLow/variant_calling/arrow/consensus-100.fasta
     modelSpec = 
     modelPath = 
-    consensusFastq = Lambda/variant_calling/arrow/consensus-100.fastq
+    consensusFastq = LambdaLow/variant_calling/arrow/consensus-100.fastq
     coverageLimitArgument = -X100
   
-  build Lambda/variant_calling/arrow/masked-variants-100.gff: maskVariantsGff $
-      Lambda/variant_calling/arrow/variants-100.gff
+  build LambdaLow/variant_calling/arrow/masked-variants-100.gff: $
+      maskVariantsGff LambdaLow/variant_calling/arrow/variants-100.gff
     referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build LambdaHigh/variant_calling/alignments_summary.gff: summarize_coverage $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+  
+  build LambdaHigh/variant_calling/arrow/variants-5.gff: variantCalling $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+    consensusFasta = LambdaHigh/variant_calling/arrow/consensus-5.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = LambdaHigh/variant_calling/arrow/consensus-5.fastq
+    coverageLimitArgument = -X5
+  
+  build LambdaHigh/variant_calling/arrow/masked-variants-5.gff: $
+      maskVariantsGff LambdaHigh/variant_calling/arrow/variants-5.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build LambdaHigh/variant_calling/arrow/variants-10.gff: variantCalling $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+    consensusFasta = LambdaHigh/variant_calling/arrow/consensus-10.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = LambdaHigh/variant_calling/arrow/consensus-10.fastq
+    coverageLimitArgument = -X10
+  
+  build LambdaHigh/variant_calling/arrow/masked-variants-10.gff: $
+      maskVariantsGff LambdaHigh/variant_calling/arrow/variants-10.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build LambdaHigh/variant_calling/arrow/variants-15.gff: variantCalling $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+    consensusFasta = LambdaHigh/variant_calling/arrow/consensus-15.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = LambdaHigh/variant_calling/arrow/consensus-15.fastq
+    coverageLimitArgument = -X15
+  
+  build LambdaHigh/variant_calling/arrow/masked-variants-15.gff: $
+      maskVariantsGff LambdaHigh/variant_calling/arrow/variants-15.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build LambdaHigh/variant_calling/arrow/variants-20.gff: variantCalling $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+    consensusFasta = LambdaHigh/variant_calling/arrow/consensus-20.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = LambdaHigh/variant_calling/arrow/consensus-20.fastq
+    coverageLimitArgument = -X20
+  
+  build LambdaHigh/variant_calling/arrow/masked-variants-20.gff: $
+      maskVariantsGff LambdaHigh/variant_calling/arrow/variants-20.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build LambdaHigh/variant_calling/arrow/variants-30.gff: variantCalling $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+    consensusFasta = LambdaHigh/variant_calling/arrow/consensus-30.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = LambdaHigh/variant_calling/arrow/consensus-30.fastq
+    coverageLimitArgument = -X30
+  
+  build LambdaHigh/variant_calling/arrow/masked-variants-30.gff: $
+      maskVariantsGff LambdaHigh/variant_calling/arrow/variants-30.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build LambdaHigh/variant_calling/arrow/variants-40.gff: variantCalling $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+    consensusFasta = LambdaHigh/variant_calling/arrow/consensus-40.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = LambdaHigh/variant_calling/arrow/consensus-40.fastq
+    coverageLimitArgument = -X40
+  
+  build LambdaHigh/variant_calling/arrow/masked-variants-40.gff: $
+      maskVariantsGff LambdaHigh/variant_calling/arrow/variants-40.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build LambdaHigh/variant_calling/arrow/variants-50.gff: variantCalling $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+    consensusFasta = LambdaHigh/variant_calling/arrow/consensus-50.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = LambdaHigh/variant_calling/arrow/consensus-50.fastq
+    coverageLimitArgument = -X50
+  
+  build LambdaHigh/variant_calling/arrow/masked-variants-50.gff: $
+      maskVariantsGff LambdaHigh/variant_calling/arrow/variants-50.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build LambdaHigh/variant_calling/arrow/variants-60.gff: variantCalling $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+    consensusFasta = LambdaHigh/variant_calling/arrow/consensus-60.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = LambdaHigh/variant_calling/arrow/consensus-60.fastq
+    coverageLimitArgument = -X60
+  
+  build LambdaHigh/variant_calling/arrow/masked-variants-60.gff: $
+      maskVariantsGff LambdaHigh/variant_calling/arrow/variants-60.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build LambdaHigh/variant_calling/arrow/variants-80.gff: variantCalling $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+    consensusFasta = LambdaHigh/variant_calling/arrow/consensus-80.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = LambdaHigh/variant_calling/arrow/consensus-80.fastq
+    coverageLimitArgument = -X80
+  
+  build LambdaHigh/variant_calling/arrow/masked-variants-80.gff: $
+      maskVariantsGff LambdaHigh/variant_calling/arrow/variants-80.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build LambdaHigh/variant_calling/arrow/variants-100.gff: variantCalling $
+      LambdaHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta
+    consensusFasta = LambdaHigh/variant_calling/arrow/consensus-100.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = LambdaHigh/variant_calling/arrow/consensus-100.fastq
+    coverageLimitArgument = -X100
+  
+  build LambdaHigh/variant_calling/arrow/masked-variants-100.gff: $
+      maskVariantsGff LambdaHigh/variant_calling/arrow/variants-100.gff
+    referenceMask = /pbi/dept/consensus/bauhaus/genome-masks/lambdaNEB-mask.gff
+  
+  build EcoliHigh/variant_calling/alignments_summary.gff: summarize_coverage $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+  
+  build EcoliHigh/variant_calling/arrow/variants-5.gff: variantCalling $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+    consensusFasta = EcoliHigh/variant_calling/arrow/consensus-5.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = EcoliHigh/variant_calling/arrow/consensus-5.fastq
+    coverageLimitArgument = -X5
+  
+  build EcoliHigh/variant_calling/arrow/masked-variants-5.gff: $
+      maskVariantsGff EcoliHigh/variant_calling/arrow/variants-5.gff
+    referenceMask = $
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
+  
+  build EcoliHigh/variant_calling/arrow/variants-10.gff: variantCalling $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+    consensusFasta = EcoliHigh/variant_calling/arrow/consensus-10.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = EcoliHigh/variant_calling/arrow/consensus-10.fastq
+    coverageLimitArgument = -X10
+  
+  build EcoliHigh/variant_calling/arrow/masked-variants-10.gff: $
+      maskVariantsGff EcoliHigh/variant_calling/arrow/variants-10.gff
+    referenceMask = $
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
+  
+  build EcoliHigh/variant_calling/arrow/variants-15.gff: variantCalling $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+    consensusFasta = EcoliHigh/variant_calling/arrow/consensus-15.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = EcoliHigh/variant_calling/arrow/consensus-15.fastq
+    coverageLimitArgument = -X15
+  
+  build EcoliHigh/variant_calling/arrow/masked-variants-15.gff: $
+      maskVariantsGff EcoliHigh/variant_calling/arrow/variants-15.gff
+    referenceMask = $
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
+  
+  build EcoliHigh/variant_calling/arrow/variants-20.gff: variantCalling $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+    consensusFasta = EcoliHigh/variant_calling/arrow/consensus-20.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = EcoliHigh/variant_calling/arrow/consensus-20.fastq
+    coverageLimitArgument = -X20
+  
+  build EcoliHigh/variant_calling/arrow/masked-variants-20.gff: $
+      maskVariantsGff EcoliHigh/variant_calling/arrow/variants-20.gff
+    referenceMask = $
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
+  
+  build EcoliHigh/variant_calling/arrow/variants-30.gff: variantCalling $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+    consensusFasta = EcoliHigh/variant_calling/arrow/consensus-30.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = EcoliHigh/variant_calling/arrow/consensus-30.fastq
+    coverageLimitArgument = -X30
+  
+  build EcoliHigh/variant_calling/arrow/masked-variants-30.gff: $
+      maskVariantsGff EcoliHigh/variant_calling/arrow/variants-30.gff
+    referenceMask = $
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
+  
+  build EcoliHigh/variant_calling/arrow/variants-40.gff: variantCalling $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+    consensusFasta = EcoliHigh/variant_calling/arrow/consensus-40.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = EcoliHigh/variant_calling/arrow/consensus-40.fastq
+    coverageLimitArgument = -X40
+  
+  build EcoliHigh/variant_calling/arrow/masked-variants-40.gff: $
+      maskVariantsGff EcoliHigh/variant_calling/arrow/variants-40.gff
+    referenceMask = $
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
+  
+  build EcoliHigh/variant_calling/arrow/variants-50.gff: variantCalling $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+    consensusFasta = EcoliHigh/variant_calling/arrow/consensus-50.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = EcoliHigh/variant_calling/arrow/consensus-50.fastq
+    coverageLimitArgument = -X50
+  
+  build EcoliHigh/variant_calling/arrow/masked-variants-50.gff: $
+      maskVariantsGff EcoliHigh/variant_calling/arrow/variants-50.gff
+    referenceMask = $
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
+  
+  build EcoliHigh/variant_calling/arrow/variants-60.gff: variantCalling $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+    consensusFasta = EcoliHigh/variant_calling/arrow/consensus-60.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = EcoliHigh/variant_calling/arrow/consensus-60.fastq
+    coverageLimitArgument = -X60
+  
+  build EcoliHigh/variant_calling/arrow/masked-variants-60.gff: $
+      maskVariantsGff EcoliHigh/variant_calling/arrow/variants-60.gff
+    referenceMask = $
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
+  
+  build EcoliHigh/variant_calling/arrow/variants-80.gff: variantCalling $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+    consensusFasta = EcoliHigh/variant_calling/arrow/consensus-80.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = EcoliHigh/variant_calling/arrow/consensus-80.fastq
+    coverageLimitArgument = -X80
+  
+  build EcoliHigh/variant_calling/arrow/masked-variants-80.gff: $
+      maskVariantsGff EcoliHigh/variant_calling/arrow/variants-80.gff
+    referenceMask = $
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
+  
+  build EcoliHigh/variant_calling/arrow/variants-100.gff: variantCalling $
+      EcoliHigh/mapping/all_movies.alignmentset.xml
+    reference = $
+        /mnt/secondary/iSmrtanalysis/current/common/references/ecoliK12_pbi_March2013/sequence/ecoliK12_pbi_March2013.fasta
+    consensusFasta = EcoliHigh/variant_calling/arrow/consensus-100.fasta
+    modelSpec = 
+    modelPath = 
+    consensusFastq = EcoliHigh/variant_calling/arrow/consensus-100.fastq
+    coverageLimitArgument = -X100
+  
+  build EcoliHigh/variant_calling/arrow/masked-variants-100.gff: $
+      maskVariantsGff EcoliHigh/variant_calling/arrow/variants-100.gff
+    referenceMask = $
+        /pbi/dept/consensus/bauhaus/genome-masks/ecoliK12_pbi_March2013-mask.gff
   
   build coverage-titration.csv coverage-titration.pdf: $
       coverageTitrationSummaryAnalysis $
-      Ecoli/variant_calling/alignments_summary.gff $
-      Ecoli/variant_calling/arrow/masked-variants-5.gff $
-      Ecoli/variant_calling/arrow/masked-variants-10.gff $
-      Ecoli/variant_calling/arrow/masked-variants-15.gff $
-      Ecoli/variant_calling/arrow/masked-variants-20.gff $
-      Ecoli/variant_calling/arrow/masked-variants-30.gff $
-      Ecoli/variant_calling/arrow/masked-variants-40.gff $
-      Ecoli/variant_calling/arrow/masked-variants-50.gff $
-      Ecoli/variant_calling/arrow/masked-variants-60.gff $
-      Ecoli/variant_calling/arrow/masked-variants-80.gff $
-      Ecoli/variant_calling/arrow/masked-variants-100.gff $
-      Lambda/variant_calling/alignments_summary.gff $
-      Lambda/variant_calling/arrow/masked-variants-5.gff $
-      Lambda/variant_calling/arrow/masked-variants-10.gff $
-      Lambda/variant_calling/arrow/masked-variants-15.gff $
-      Lambda/variant_calling/arrow/masked-variants-20.gff $
-      Lambda/variant_calling/arrow/masked-variants-30.gff $
-      Lambda/variant_calling/arrow/masked-variants-40.gff $
-      Lambda/variant_calling/arrow/masked-variants-50.gff $
-      Lambda/variant_calling/arrow/masked-variants-60.gff $
-      Lambda/variant_calling/arrow/masked-variants-80.gff $
-      Lambda/variant_calling/arrow/masked-variants-100.gff
+      EcoliLow/variant_calling/alignments_summary.gff $
+      EcoliLow/variant_calling/arrow/masked-variants-5.gff $
+      EcoliLow/variant_calling/arrow/masked-variants-10.gff $
+      EcoliLow/variant_calling/arrow/masked-variants-15.gff $
+      EcoliLow/variant_calling/arrow/masked-variants-20.gff $
+      EcoliLow/variant_calling/arrow/masked-variants-30.gff $
+      EcoliLow/variant_calling/arrow/masked-variants-40.gff $
+      EcoliLow/variant_calling/arrow/masked-variants-50.gff $
+      EcoliLow/variant_calling/arrow/masked-variants-60.gff $
+      EcoliLow/variant_calling/arrow/masked-variants-80.gff $
+      EcoliLow/variant_calling/arrow/masked-variants-100.gff $
+      LambdaLow/variant_calling/alignments_summary.gff $
+      LambdaLow/variant_calling/arrow/masked-variants-5.gff $
+      LambdaLow/variant_calling/arrow/masked-variants-10.gff $
+      LambdaLow/variant_calling/arrow/masked-variants-15.gff $
+      LambdaLow/variant_calling/arrow/masked-variants-20.gff $
+      LambdaLow/variant_calling/arrow/masked-variants-30.gff $
+      LambdaLow/variant_calling/arrow/masked-variants-40.gff $
+      LambdaLow/variant_calling/arrow/masked-variants-50.gff $
+      LambdaLow/variant_calling/arrow/masked-variants-60.gff $
+      LambdaLow/variant_calling/arrow/masked-variants-80.gff $
+      LambdaLow/variant_calling/arrow/masked-variants-100.gff $
+      EcoliHigh/variant_calling/alignments_summary.gff $
+      EcoliHigh/variant_calling/arrow/masked-variants-5.gff $
+      EcoliHigh/variant_calling/arrow/masked-variants-10.gff $
+      EcoliHigh/variant_calling/arrow/masked-variants-15.gff $
+      EcoliHigh/variant_calling/arrow/masked-variants-20.gff $
+      EcoliHigh/variant_calling/arrow/masked-variants-30.gff $
+      EcoliHigh/variant_calling/arrow/masked-variants-40.gff $
+      EcoliHigh/variant_calling/arrow/masked-variants-50.gff $
+      EcoliHigh/variant_calling/arrow/masked-variants-60.gff $
+      EcoliHigh/variant_calling/arrow/masked-variants-80.gff $
+      EcoliHigh/variant_calling/arrow/masked-variants-100.gff $
+      LambdaHigh/variant_calling/alignments_summary.gff $
+      LambdaHigh/variant_calling/arrow/masked-variants-5.gff $
+      LambdaHigh/variant_calling/arrow/masked-variants-10.gff $
+      LambdaHigh/variant_calling/arrow/masked-variants-15.gff $
+      LambdaHigh/variant_calling/arrow/masked-variants-20.gff $
+      LambdaHigh/variant_calling/arrow/masked-variants-30.gff $
+      LambdaHigh/variant_calling/arrow/masked-variants-40.gff $
+      LambdaHigh/variant_calling/arrow/masked-variants-50.gff $
+      LambdaHigh/variant_calling/arrow/masked-variants-60.gff $
+      LambdaHigh/variant_calling/arrow/masked-variants-80.gff $
+      LambdaHigh/variant_calling/arrow/masked-variants-100.gff
   
 
 

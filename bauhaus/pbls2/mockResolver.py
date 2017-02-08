@@ -26,18 +26,18 @@ class MockResolver(object):
               ("3150122-0001", "")        : "/pbi/collections/315/3150122/r54011_20160305_235615/1_A01/m54011_160305_235923.subreadset.xml" ,
               ("3150122-0002", "")        : "/pbi/collections/315/3150122/r54011_20160305_235615/2_B01/m54011_160306_050740.subreadset.xml" }
         if (runCode, reportsFolder) not in lookup:
-            raise DataNotFound("%s/%s" % (runCode, reportsFolder))
+            raise DataNotFound("Input data not found: %s/%s" % (runCode, reportsFolder))
         return lookup[(runCode, reportsFolder)]
 
     def resolveReference(self, referenceName):
-        if referenceName not in ["lambdaNEB", "ecoliK12_pbi_March2013"]:
+        if referenceName not in ["lambdaNEB", "ecoliK12_pbi_March2013", "plasmidbell_v1"]:
             raise DataNotFound("Reference not found: %s" % referenceName)
         referenceFasta = op.join(self.REFERENCES_ROOT, referenceName, "sequence", referenceName + ".fasta")
         return referenceFasta
 
     def resolveReferenceMask(self, referenceName):
         if referenceName not in ["lambdaNEB", "ecoliK12_pbi_March2013"]:
-            raise DataNotFound("Reference mask not found: %s" % referenceName)
+            raise DataNotFound("Reference mask (required for CoverageTitration) not found for genome: %s" % referenceName)
         return op.join(self.REFERENCE_MASKS_ROOT, referenceName + "-mask.gff")
 
     def resolveJob(self, smrtLinkServer, jobId):

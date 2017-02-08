@@ -4,6 +4,7 @@ from bauhaus.pbls2 import Resolver, MockResolver
 from bauhaus.pflow import PFlow
 from bauhaus.workflows import availableWorkflows
 from bauhaus.utils import mkdirp
+from bauhaus.experiment import (InputResolutionError, TableValidationError)
 
 def doWorkflowHelp(args):
     if not args.workflow :
@@ -21,11 +22,9 @@ def doValidate(args):
         r = Resolver()
     wfg = availableWorkflows[args.workflow]()
     ct = wfg.conditionTableType()(args.conditionTable, r)
-    print "Validation and input resolution succeeded."
     return wfg, ct
 
-def doGenerate(args):
-    wfg, ct = doValidate(args)
+def doGenerate(args, wfg, ct):
     pflow = PFlow()
     if args.noGrid:
         pflow.noGrid()
@@ -84,9 +83,16 @@ def _main(args):
         doWorkflowHelp(args)
         return
 
-    if args.command == "validate":
-        doValidate(args)
-        return
+    if args.command in ("validate", "generate", "run"):
+        try:
+            wfg, ct = doValidate(args)
+            print "Validation and input resolution succeeded."
+            if args.command == "validate": return 0
+        except (TableValidationError, InputResolutionError) as e:
+            print "Condition table validation error:", e
+            return 1
+
+    # Set up workflow directory
 
     mkdirp(args.outputDirectory)
     shutil.copyfile(args.conditionTable, op.join(args.outputDirectory, "condition-table.csv"))
@@ -95,7 +101,7 @@ def _main(args):
 
 
     if args.command == "generate":
-        doGenerate(args)
+        doGenerate(args, wfg, ct)
     elif args.command == "run":
         doRun(args)
 
@@ -109,10 +115,10 @@ def main():
                 _main(args)
             return 0
         except ImportError:
-            _main(args)
+            return _main(args)
     else:
-        _main(args)
+        return _main(args)
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

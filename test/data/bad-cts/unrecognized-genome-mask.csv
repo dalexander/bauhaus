@@ -1,0 +1,5 @@
+Condition,RunCode,ReportsFolder,Genome,p_SNR
+LambdaLow,3150128-0001,,lambdaNEB,Low
+LambdaHigh,3150128-0002,,lambdaNEB,High
+EcoliLow,3150122-0001,,plasmidbell_v1,Low
+EcoliHigh,3150122-0002,,plasmidbell_v1,High

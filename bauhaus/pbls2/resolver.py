@@ -129,7 +129,7 @@ class Resolver(object):
         elif not op.exists(self.REFERENCE_MASKS_ROOT):
             raise ResolverFailure("NFS unavailable?")
         else:
-            raise DataNotFound("missing mask for " + referenceName)
+            raise DataNotFound("Reference mask (required for CoverageTitration) not found for " + referenceName)
 
     def resolveJob(self, smrtLinkServer, jobId):
         if smrtLinkServer not in self.SMRTLINK_SERVER_TO_JOBS_ROOT:

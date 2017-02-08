@@ -4,3 +4,11 @@
 
   nonuniform-conditions-1.csv  : this one has conflicting genomes within a condition
   nonuniform-conditions-2.csv  : this one has conflicting p_ variable names within a condition
+
+** genome not present in "reference repository"
+
+  unrecognized-genome.csv
+
+** input can't be found
+
+  nonexistent-data.csv
