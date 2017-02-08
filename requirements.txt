@@ -2,3 +2,4 @@ requests
 ninja-syntax
 eztable
 jinja2
+future
