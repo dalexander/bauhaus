@@ -52,7 +52,7 @@ class HQMetricsWorkflow(Workflow):
                 # TODO : add BAZFile as a starting point
                 if ct.inputType == InputType.TraceH5File:
                     if len(inputs) != 1 :
-                        raise NotImplementedError, "condition must be 1:1 with inputs"
+                        raise NotImplementedError("condition must be 1:1 with inputs")
 
                     trch5 = inputs[0] + ""
                     (d,b) = os.path.split(trch5)
@@ -87,14 +87,14 @@ class HQMetricsWorkflow(Workflow):
                     inputs = ct.inputs(condition)
 
                     if len(inputs) != 1 :
-                        raise NotImplementedError, "condition must be 1:1 with inputs"
+                        raise NotImplementedError("condition must be 1:1 with inputs")
 
                     subreadset = inputs[0] + ""
                     movieName_ = movieName(subreadset)
                     adaptersFile = extractedAdaptersFasta(subreadset)
 
                 else:
-                    raise NotImplementedError, "Support not yet implemented for this input type %s" % inputs[0]
+                    raise NotImplementedError("Support not yet implemented for this input type %s" % inputs[0])
 
 
                 with pflow.context("movieName", movieName_ ):

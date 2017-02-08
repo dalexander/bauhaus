@@ -1,3 +1,4 @@
+from builtins import object
 from bauhaus.resources import getResourcePath
 from bauhaus.utils import mkdirp, readFile, writeFile
 
@@ -91,13 +92,13 @@ class PFlow(ContextTracker):
     @chunks.setter
     def chunks(self, nChunks):
         if (not isinstance(nChunks, int)) or (nChunks < 0):
-            raise ValueError, "Illegal nChunks"
+            raise ValueError("Illegal nChunks")
         self._nChunks = nChunks
 
     # ---- rules, build targets  -----
 
     def formatInContext(self, s):
-        if isinstance(s, (str, unicode)):
+        if isinstance(s, str):
             return s.format(**self.contextToDict())
         else:
             return s
@@ -120,7 +121,7 @@ class PFlow(ContextTracker):
             inputsF = None
         if variables is not None:
             variablesF = { k : self.formatInContext(v)
-                           for (k, v) in variables.iteritems() }
+                           for (k, v) in variables.items() }
         else:
             variablesF = None
         buildStmt = BuildStatement(outputsF, rule, inputsF, variablesF)
@@ -141,7 +142,7 @@ class PFlow(ContextTracker):
                 w.variable("gridSMP", "")
             w.newline()
             w.comment("Rules")
-            for rule in self._rules.iteritems():
+            for rule in self._rules.items():
                 w.rule(*rule)
                 w.newline()
             w.newline()

@@ -39,5 +39,5 @@ class UnrolledNoHQMappingWorkflow(Workflow):
                     outputDict[condition] = genUnrolledNoHQMapping(
                         pflow, ct.inputs(condition), reference, splitFactor=8)
                 else:
-                    raise NotImplementedError, "Support not yet implemented for this input type"
+                    raise NotImplementedError("Support not yet implemented for this input type")
         return outputDict

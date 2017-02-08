@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import str
 import os.path as op
 import re
 from xml.etree import ElementTree
@@ -47,12 +49,12 @@ def scrapsBam(subreadSet):
     et = ElementTree.parse(subreadSet)
     q = et.findall('.//{http://pacificbiosciences.com/PacBioBaseDataModel.xsd}ExternalResource[@MetaType="PacBio.SubreadFile.ScrapsBamFile"]')
     if len(q) == 0:
-        raise IOError,"scraps.bam not found in " + subreadSet
+        raise IOError("scraps.bam not found in " + subreadSet)
     if len(q) > 1:
-        print "While parsing " + subreadSet + " found " + str(len(q)) + " scraps.bam resources:"
+        print("While parsing " + subreadSet + " found " + str(len(q)) + " scraps.bam resources:")
         for x in q:
-            print x.attrib["ResourceId"]
-        raise IOError,"too many scraps.bams found"
+            print(x.attrib["ResourceId"])
+        raise IOError("too many scraps.bams found")
     assert len(q) == 1
     scrapsBamFileName=q[0].attrib["ResourceId"]
     if not op.isabs(scrapsBamFileName):
@@ -83,10 +85,10 @@ def extractedAdaptersFasta(subreadSet):
     if len(q) == 0:
         fastaFile = op.join(reportsDirectory(subreadSet), movieName(subreadSet) + ".adapters.fasta")
     elif len(q) > 1:
-        print "While parsing " + subreadSet + " found " + str(len(q)) + " adapters resources:"
+        print("While parsing " + subreadSet + " found " + str(len(q)) + " adapters resources:")
         for x in q:
-            print x.attrib["ResourceId"]
-        raise IOError,"too many adapsters.fasta found"
+            print(x.attrib["ResourceId"])
+        raise IOError("too many adapsters.fasta found")
     else:
         fastaFile=q[0].attrib["ResourceId"]
     if not op.isabs(fastaFile):
@@ -143,7 +145,7 @@ def genDatasetConsolidateForMovie(pflow, datasets, taskTypeName, datasetTypeName
     elif datasetTypeName == "consensusreadset":
         bamTypeName = "ccs"
     else:
-        raise Exception, "Unsupported dataset type..."
+        raise Exception("Unsupported dataset type...")
     consolidatedBam = "{condition}/%s/{movieName}.%s.bam" % (taskTypeName, bamTypeName)
     consolidatedDataset = "{condition}/%s/{movieName}.%s.xml" % (taskTypeName, datasetTypeName)
     buildStmtConsolidate = pflow.genBuildStatement(

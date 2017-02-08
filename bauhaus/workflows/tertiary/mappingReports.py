@@ -58,7 +58,7 @@ class MappingReportsWorkflow(Workflow):
     def generate(self, pflow, ct):
         mapping = MappingWorkflow().generate(pflow, ct)
         alignmentSets = { c : op.abspath(mapping[c][0]) for c in mapping }
-        flatMappingOuts = listConcat(mapping.values())
+        flatMappingOuts = listConcat(list(mapping.values()))
         generateConditionsJSON(pflow, ct, alignmentSets)
 
         # run plots

@@ -25,7 +25,7 @@ class ArrowTrainingWorkflow(Workflow):
         REF_FASTA = ALIGN_XML + ".ref.fa"
         REF_FAIDX = REF_FASTA + ".fai"
         inputs = []
-        for (condition, alignmentSets) in mapping.iteritems():
+        for (condition, alignmentSets) in mapping.items():
             alignmentSet = alignmentSets[0]
             reference = ct.reference(condition)
             with pflow.context("condition", condition):

@@ -52,5 +52,5 @@ class NoHQMappingWorkflow(Workflow):
                     noHQAlnSets = genChunkedMapping(pflow, noHQSubreads, reference)
                     outputDict[condition] = noHQAlnSets
                 else:
-                    raise NotImplementedError, "Support not yet implemented for this input type"
+                    raise NotImplementedError("Support not yet implemented for this input type")
         return outputDict

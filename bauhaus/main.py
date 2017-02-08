@@ -1,3 +1,4 @@
+from __future__ import print_function
 import argparse, shutil, sys, os, os.path as op
 
 from bauhaus.pbls2 import Resolver, MockResolver
@@ -8,8 +9,8 @@ from bauhaus.experiment import (InputResolutionError, TableValidationError)
 
 def doWorkflowHelp(args):
     if not args.workflow :
-        print "Please pick a workflow with the --workflow option:"
-        print ' '.join(availableWorkflows.keys())
+        print("Please pick a workflow with the --workflow option:")
+        print(' '.join(list(availableWorkflows.keys())))
         return
 
     wfg = availableWorkflows[args.workflow]()
@@ -31,7 +32,7 @@ def doGenerate(args, wfg, ct):
     pflow.chunks = args.chunks
     wfg.generate(pflow, ct)
     pflow.write("build.ninja")
-    print 'Runnable workflow written to directory "%s"' % args.outputDirectory
+    print('Runnable workflow written to directory "%s"' % args.outputDirectory)
 
 def doRun(args):
     raise NotImplementedError
@@ -47,7 +48,7 @@ def parseArgs():
         "--workflow", "-w",
         action="store", type=str,
         required=True,
-        choices = availableWorkflows.keys())
+        choices = list(availableWorkflows.keys()))
     parser.add_argument(
         "--mockResolver", "-m",
         action="store_true",
@@ -86,10 +87,10 @@ def _main(args):
     if args.command in ("validate", "generate", "run"):
         try:
             wfg, ct = doValidate(args)
-            print "Validation and input resolution succeeded."
+            print("Validation and input resolution succeeded.")
             if args.command == "validate": return 0
         except (TableValidationError, InputResolutionError) as e:
-            print "Condition table validation error:", e
+            print("Condition table validation error:", e)
             return 1
 
     # Set up workflow directory

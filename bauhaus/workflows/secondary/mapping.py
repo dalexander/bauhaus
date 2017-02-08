@@ -124,7 +124,7 @@ class MappingWorkflow(Workflow):
                         pflow, ct.inputs(condition), "mapping", "alignmentset")
 
                 else:
-                    raise NotImplementedError, "Support not yet implemented for this input type"
+                    raise NotImplementedError("Support not yet implemented for this input type")
         return outputDict
 
 
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     reference = "/mnt/secondary/iSmrtanalysis/current/common/references/lambdaNEB/sequence/lambdaNEB.fasta"
 
     pflow = PFlow()
-    for (condition, inputSubreadSets) in inputDataByCondition.iteritems():
+    for (condition, inputSubreadSets) in inputDataByCondition.items():
         with pflow.context("condition", condition):
             #genMapping(pflow, inputSubreadSets, reference)
             genChunkedMapping(pflow, inputSubreadSets, reference, 8)
