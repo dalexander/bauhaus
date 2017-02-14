@@ -29,6 +29,8 @@ def doGenerate(args, wfg, ct):
     pflow = PFlow()
     if args.noGrid:
         pflow.noGrid()
+    else:
+        pflow.grid(args.sgeQueue)
     pflow.chunks = args.chunks
     wfg.generate(pflow, ct)
     pflow.write("build.ninja")
@@ -63,6 +65,11 @@ def parseArgs():
     parser.add_argument(
         "--noGrid", action="store_true",
         help="Disable the qsub submission to the grid")
+
+    parser.add_argument(
+        "-q", "--sgeQueue",
+        default="default", type=str,
+        help="Specify destination SGE queue for workflow tasks")
     parser.add_argument(
         "--chunks", type=int, default=8,
         help="The number of chunks that should be used for scatter-gather compatible workflows (0 means disable chunking)")

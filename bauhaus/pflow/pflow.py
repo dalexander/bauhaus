@@ -64,7 +64,7 @@ class PFlow(ContextTracker):
         self._buildStmts = []
         self._resourcesToBundle = []
         self.bundleResource("run.sh")
-        self._grid = True
+        self._grid = False
         self._nChunks = 8
 
     # ----- script/resource bundling ---------
@@ -79,6 +79,10 @@ class PFlow(ContextTracker):
     def noGrid(self) :
         """Disable the qsub/farm option"""
         self._grid = False
+
+    def grid(self, queueName):
+        self._grid = True
+        self._sgeQueue = queueName
 
     @property
     def chunks(self):
@@ -137,7 +141,8 @@ class PFlow(ContextTracker):
             w.variable("ncpus", "8")
             w.variable("scratchDir", "/scratch")
             if self._grid:
-                w.variable("grid", "qsub -sync y -cwd -V -b y -e log -o log")
+                w.variable("sgeQueue", self._sgeQueue)
+                w.variable("grid", "qsub -q $sgeQueue -sync y -cwd -V -b y -e log -o log")
                 w.variable("gridSMP", "$grid -pe smp $ncpus")
             else:
                 w.variable("grid", "")

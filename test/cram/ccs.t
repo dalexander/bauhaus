@@ -9,7 +9,8 @@
   # Variables
   ncpus = 8
   scratchDir = /scratch
-  grid = qsub -sync y -cwd -V -b y -e log -o log
+  sgeQueue = default
+  grid = qsub -q $sgeQueue -sync y -cwd -V -b y -e log -o log
   gridSMP = $grid -pe smp $ncpus
   
   # Rules
@@ -77,7 +78,8 @@
   # Variables
   ncpus = 8
   scratchDir = /scratch
-  grid = qsub -sync y -cwd -V -b y -e log -o log
+  sgeQueue = default
+  grid = qsub -q $sgeQueue -sync y -cwd -V -b y -e log -o log
   gridSMP = $grid -pe smp $ncpus
   
   # Rules
