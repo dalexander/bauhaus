@@ -1,4 +1,6 @@
 from builtins import object
+from builtins import str
+
 from bauhaus.resources import getResourcePath
 from bauhaus.utils import mkdirp, readFile, writeFile
 
@@ -98,7 +100,7 @@ class PFlow(ContextTracker):
     # ---- rules, build targets  -----
 
     def formatInContext(self, s):
-        if isinstance(s, str):
+        if isinstance(s, (str, bytes)):
             return s.format(**self.contextToDict())
         else:
             return s
