@@ -3,19 +3,16 @@ library(dplyr)
 library(ggplot2)
 library(xml2)
 library(stringr)
-library(feather)
+# library(feather)
+
+## FIXME: make a real package
+myDir = "./scripts/R"
+source(file.path(myDir, "Bauhaus2.R"))
 
 toPhred <- function(acc, maximum=60) {
     err = pmax(1-acc, 10^(-maximum/10))
     -10*log10(err)
 }
-
-
-getConditionTable <- function(wfOutputRoot)
-{
-    read.csv(file.path(wfOutputRoot, "condition-table.csv"))
-}
-
 
 ## This is not a good idea at all really---the dataset could contain
 ## "filter" operations that we are ignoring via this mechanism.  We
@@ -71,9 +68,9 @@ makeCCSDataFrame1 <- function(datasetXmlFile, conditionName, sampleFraction=1.0)
              SnrT = snrT)))
 }
 
-makeCCSDataFrame <- function(wfOutputRoot, sampleFraction=1.0)
+makeCCSDataFrame <- function(report, wfOutputRoot, sampleFraction=1.0)
 {
-    ct <- getConditionTable(wfOutputRoot)
+    ct <- report$condition.table
     conditions <- unique(ct$Condition)
     dsetXmls <- sapply(conditions, function(condition) file.path(wfOutputRoot, condition, "ccs_mapping/all_movies.consensusalignments.xml"))
     dfs <- mapply(makeCCSDataFrame1, dsetXmls, conditions, sampleFraction=sampleFraction, SIMPLIFY=F)
@@ -81,7 +78,7 @@ makeCCSDataFrame <- function(wfOutputRoot, sampleFraction=1.0)
 }
 
 
-doCCSCumulativeYieldPlots <- function(ccsDf)
+doCCSCumulativeYieldPlots <- function(report, ccsDf)
 {
   cumByCut <- function(x) {
     qvOrder <- order(x$IdentityPhred, decreasing=TRUE)
@@ -96,48 +93,84 @@ doCCSCumulativeYieldPlots <- function(ccsDf)
 
   ## NumReads on y-axis
   p <- qplot(IdentityPhred, NumReads, colour=Condition, data=yield, main="Yield of reads by CCS accuracy")
-  print(p)
+  report$ggsave(
+    "yield_reads_ccs_accuracy.png",
+    p,
+    id = "yield_reads_ccs_accuracy",
+    title = "Yield of reads by CCS accuracy",
+    caption = "Yield of reads by CCS accuracy"
+  )
 
   ## Fraction of reads on y-axis
   p <- qplot(IdentityPhred, YieldFraction, colour=Condition, data=yield, main="Fractional yield by CCS accuracy")
-  print(p)
+  report$ggsave(
+    "fractional_yield_ccs_accuracy.png",
+    p,
+    id = "fractional_yield_ccs_accuracy",
+    title = "Fractional yield by CCS accuracy",
+    caption = "Fractional yield by CCS accuracy"
+  )
 }
 
-doCCSNumPassesHistogram <- function(ccsDf)
+doCCSNumPassesHistogram <- function(report, ccsDf)
 {
     p <- qplot(NumPasses, data=ccsDf, geom="density", color=Condition,
                main="NumPasses distribution (density)")
-    print(p)
+    report$ggsave(
+      "numpasses_dist_density.png",
+      p,
+      id = "numpasses_dist_density",
+      title = "NumPasses distribution (density)",
+      caption = "NumPasses distribution (density)"
+    )
 }
 
-doCCSNumPassesCDF <- function(ccsDf)
+doCCSNumPassesCDF <- function(report, ccsDf)
 {
     p <- (ggplot(aes(x=NumPasses, color=Condition), data=ccsDf) +
           stat_ecdf(geom="step") +
           ggtitle("NumPasses distribution (ECDF)"))
-    print(p)
+    report$ggsave(
+      "numpasses_dist_ecdf.png",
+      p,
+      id = "numpasses_dist_ecdf",
+      title = "NumPasses distribution (ECDF)",
+      caption = "NumPasses distribution (ECDF)"
+    )
 }
 
 
 ## calibration plot...
 
-doCCSReadQualityCalibrationPlots <- function(ccsDf)
+doCCSReadQualityCalibrationPlots <- function(report, ccsDf)
 {
-    ccsDf <- sample_n(ccsDf, 5000)
+    ccsDf <- sample_n(ccsDf, min(5000, nrow(ccsDf)))
 
     p <- qplot(ReadQuality, Identity, alpha=I(0.1), data=ccsDf) + facet_grid(.~Condition) +
         geom_abline(slope=1, color="red") +
         ggtitle("Read quality versus empirical accuracy")
-    print(p)
+    report$ggsave(
+      "read_quality_vs_empirical_accuracy.png",
+      p,
+      id = "read_quality_vs_empirical_accuracy",
+      title = "Read quality versus empirical accuracy",
+      caption = "Read quality versus empirical accuracy"
+    )
 
     p <- qplot(ReadQualityPhred, IdentityPhred, alpha=I(0.1), data=ccsDf) + facet_grid(.~Condition) +
         geom_abline(slope=1, color="red") +
         ggtitle("Read quality versus empirical accuracy (Phred scale)")
-    print(p)
+    report$ggsave(
+      "read_quality_vs_empirical_accuracy_phred.png",
+      p,
+      id = "read_quality_vs_empirical_accuracy_phred",
+      title = "Read quality versus empirical accuracy (Phred scale)",
+      caption = "Read quality versus empirical accuracy (Phred scale)"
+    )
 }
 
 
-doCCSTitrationPlots <- function(ccsDf)
+doCCSTitrationPlots <- function(report, ccsDf)
 {
      accVsNp <- ccsDf %>% group_by(Condition, NumPasses) %>% summarize(
        MeanIdentity=1-(max(1, sum(NumErrors))/sum(ReadLength)),
@@ -146,36 +179,55 @@ doCCSTitrationPlots <- function(ccsDf)
 
      p <- qplot(NumPasses, MeanIdentityPhred, size=TotalBases, weight=TotalBases, data=filter(accVsNp, NumPasses<20)) +
          facet_grid(.~Condition) + geom_smooth()
-     print(p)
+     report$ggsave(
+       "ccs_titration.png",
+       p,
+       id = "ccs_titration",
+       title = "CCS Titration Plots",
+       caption = "CCS Titration Plots"
+     )
 }
 
 
-doAllCCSPlots <- function(ccsDf)
+doAllCCSPlots <- function(report, ccsDf)
 {
-    doCCSTitrationPlots(ccsDf)
-    doCCSNumPassesHistogram(ccsDf)
-    doCCSNumPassesCDF(ccsDf)
-    doCCSReadQualityCalibrationPlots(ccsDf)
-    doCCSCumulativeYieldPlots(ccsDf)
+    doCCSTitrationPlots(report, ccsDf)
+    doCCSNumPassesHistogram(report, ccsDf)
+    doCCSNumPassesCDF(report, ccsDf)
+    doCCSReadQualityCalibrationPlots(report, ccsDf)
+    doCCSCumulativeYieldPlots(report, ccsDf)
 }
 
-
-## Main, when run as a script.
-if (!interactive())
-{
+makeReport <- function(report) {
+  if (!interactive()){
     args <- commandArgs(TRUE)
     wfRootDir <- args[1]
-    ccsDf <- makeCCSDataFrame(wfRootDir)
-    ##write.csv(ccsDf, "ccs-mapping.csv")  ## TOO BIG, TOO SLOW
-    write_feather(ccsDf, "ccs-mapping.feather")
-    pdf("ccs-mapping.pdf", 11, 8.5)
-    doAllCCSPlots(ccsDf)
-    dev.off()
-}
-
-
-if (0) {
+    ccsDf <- makeCCSDataFrame(report, wfRootDir)  
+    # write_feather(ccsDf, "ccs-mapping.feather")
+    doAllCCSPlots(report, ccsDf)
+    
+    # Save the report object for later debugging
+    save(report, file = file.path(report$outputDir, "report.Rd"))
+    
+    # At the end of this function we need to call this last, it outputs the report
+    report$write.report()
+  }
+  if (0) {
     ##wfRoot = "/home/UNIXHOME/dalexander/Projects/Analysis/EchidnaConsensus/2kLambda_4hr_postTrain_CCS/"
     wfRoot <- "/home/UNIXHOME/ayang/projects/bauhaus/Echidna_PerfVer/EchidnaVer_CCS_postTrain"
-    df <- makeCCSDataFrame(wfRoot, 1.0)
+    df <- makeCCSDataFrame(report, wfRoot, 1.0)
+  }
 }
+
+main <- function()
+{
+  report <- bh2Reporter(
+    "condition-table.csv",
+    "reports/report.json",
+    "CCS Mapping Reports")
+  makeReport(report)
+}
+
+## Leave this as the last line in the file.
+logging::basicConfig()
+main()
