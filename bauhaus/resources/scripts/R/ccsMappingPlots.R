@@ -223,7 +223,7 @@ main <- function()
 {
   report <- bh2Reporter(
     "condition-table.csv",
-    "reports/report.json",
+    "reports/CCSMappingReports/report.json",
     "CCS Mapping Reports")
   makeReport(report)
 }

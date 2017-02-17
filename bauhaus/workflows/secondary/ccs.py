@@ -6,7 +6,7 @@ import os.path as op
 
 from bauhaus.experiment import InputType, ConditionTable, ResequencingConditionTable
 from bauhaus import Workflow
-from bauhaus.utils import listConcat
+from bauhaus.utils import mkdirp, listConcat
 
 from .datasetOps import *
 from .mapping import genMappingCCS
@@ -16,6 +16,12 @@ def formatModelParams(buildVariables, modelPath, modelSpec):
     buildVariables["modelPath"] = "--modelPath={0}".format(modelPath) if modelPath else ""
     buildVariables["modelSpec"] = "--modelSpec={0}".format(modelSpec) if modelSpec else ""
     return buildVariables
+    
+        
+def generateReportDir(pflow):
+    destDir = "reports/CCSMappingReports"
+    mkdirp(destDir)
+    return destDir
 
 def genCCS(pflow, subreadSets, modelPath, modelSpec):
     ccsRule = pflow.genRuleOnce(
@@ -147,13 +153,15 @@ class CCSMappingReportsWorkflow(Workflow):
 
     def generate(self, pflow, ct):
         pflow.bundleResource("scripts/R/ccsMappingPlots.R")
+        pflow.bundleResource("scripts/R/Bauhaus2.R")
         ccsMappingOutputs = CCSMappingWorkflow().generate(pflow, ct)
         flatOutputs = listConcat(list(ccsMappingOutputs.values()))
+        outputNonce = generateReportDir(pflow)
 
         ccsSummaryRule = pflow.genRuleOnce(
             "ccsMappingSummaryAnalysis",
             "Rscript --vanilla scripts/R/ccsMappingPlots.R .")
         bs = pflow.genBuildStatement(
-            [ "ccs-mapping.pdf"],
+            [ outputNonce ],
             "ccsMappingSummaryAnalysis",
             flatOutputs)
